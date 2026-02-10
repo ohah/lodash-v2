@@ -20,10 +20,7 @@ export interface SpeedResult {
  * @param iterations 실행 횟수 (기본 10_000)
  * @returns 속도 결과
  */
-export function runSpeedTest(
-  fn: () => unknown,
-  iterations: number = 10_000
-): SpeedResult {
+export function runSpeedTest(fn: () => unknown, iterations: number = 10_000): SpeedResult {
   const start = performance.now();
   for (let i = 0; i < iterations; i++) {
     fn();
@@ -37,23 +34,21 @@ export function runSpeedTest(
   };
 }
 
+export type CompareSpeedWinner = 'ours' | 'lodash' | 'es-toolkit';
+
 /**
  * 두 함수(ours vs lodash)의 속도를 비교합니다.
- * @param ours 우리 구현 함수
- * @param lodashFn lodash 함수 (동일 시그니처)
- * @param getArgs 각 실행 시 사용할 인자를 반환하는 함수 (매 회 호출)
- * @param iterations 각 함수당 실행 횟수
  */
 export function compareSpeed(
   ours: () => unknown,
   lodashFn: () => unknown,
   iterations: number = 10_000
-): { ours: SpeedResult; lodash: SpeedResult; faster: "ours" | "lodash"; ratio: number } {
+): { ours: SpeedResult; lodash: SpeedResult; faster: CompareSpeedWinner; ratio: number } {
   const oursResult = runSpeedTest(ours, iterations);
   const lodashResult = runSpeedTest(lodashFn, iterations);
-  const faster = oursResult.avgMs <= lodashResult.avgMs ? "ours" : "lodash";
+  const faster = oursResult.avgMs <= lodashResult.avgMs ? 'ours' : 'lodash';
   const ratio =
-    faster === "ours"
+    faster === 'ours'
       ? lodashResult.avgMs / oursResult.avgMs
       : oursResult.avgMs / lodashResult.avgMs;
   return {
@@ -61,5 +56,40 @@ export function compareSpeed(
     lodash: lodashResult,
     faster,
     ratio,
+  };
+}
+
+/**
+ * 세 함수(ours vs lodash vs es-toolkit)의 속도를 비교합니다.
+ */
+export function compareSpeedThree(
+  ours: () => unknown,
+  lodashFn: () => unknown,
+  esToolkitFn: () => unknown,
+  iterations: number = 10_000
+): {
+  ours: SpeedResult;
+  lodash: SpeedResult;
+  esToolkit: SpeedResult;
+  fastest: CompareSpeedWinner;
+  /** fastest 대비 나머지 비율 (1이면 동일, >1이면 fastest가 그만큼 빠름) */
+  ratios: { ours: number; lodash: number; esToolkit: number };
+} {
+  const o = runSpeedTest(ours, iterations);
+  const l = runSpeedTest(lodashFn, iterations);
+  const e = runSpeedTest(esToolkitFn, iterations);
+  const minAvg = Math.min(o.avgMs, l.avgMs, e.avgMs);
+  const fastest: CompareSpeedWinner =
+    minAvg === o.avgMs ? 'ours' : minAvg === l.avgMs ? 'lodash' : 'es-toolkit';
+  return {
+    ours: o,
+    lodash: l,
+    esToolkit: e,
+    fastest,
+    ratios: {
+      ours: o.avgMs / minAvg,
+      lodash: l.avgMs / minAvg,
+      esToolkit: e.avgMs / minAvg,
+    },
   };
 }

@@ -2,16 +2,18 @@
  * 벤치마크 스위트: 속도 + 결과 테스트를 한 번에 실행하는 헬퍼
  */
 
-import type { ResultCase } from "./result";
-import { runResultTest } from "./result";
-import { compareSpeed, runSpeedTest } from "./speed";
+import type { ResultCase } from './result';
+import { runResultTest, runResultTestThree } from './result';
+import { compareSpeed, compareSpeedThree, runSpeedTest } from './speed';
+import type { CompareSpeedWinner } from './speed';
 
 export interface BenchmarkSuiteOptions<TArgs extends unknown[], TResult> {
   name: string;
   ours: (...args: TArgs) => TResult;
   lodashFn: (...args: TArgs) => TResult;
+  /** 있으면 3-way(ours / lodash / es-toolkit) 비교 */
+  esToolkitFn?: (...args: TArgs) => TResult;
   resultCases: Array<ResultCase<TArgs, TResult>>;
-  /** 속도 테스트 시 사용할 인자 (고정 1개). 반드시 동일 결과를 내는 호출이어야 함 */
   speedArgs: TArgs;
   speedIterations?: number;
 }
@@ -29,18 +31,24 @@ export interface BenchmarkSuiteResult<TResult> {
       expected: TResult;
       actual: TResult;
       args: unknown[];
+      esToolkitResult?: TResult;
+      oursMatchLodash?: boolean;
+      esToolkitMatchLodash?: boolean;
     }>;
   };
   speedTest: {
     ours: { totalMs: number; avgMs: number; iterations: number; opsPerSec: number };
     lodash: { totalMs: number; avgMs: number; iterations: number; opsPerSec: number };
-    faster: "ours" | "lodash";
+    esToolkit?: { totalMs: number; avgMs: number; iterations: number; opsPerSec: number };
+    faster: CompareSpeedWinner;
     ratio: number;
+    ratios?: { ours: number; lodash: number; esToolkit: number };
   };
 }
 
 /**
  * 한 함수에 대해 결과 테스트 + 속도 비교를 실행합니다.
+ * esToolkitFn이 있으면 ours / lodash / es-toolkit 3-way 비교.
  */
 export function runBenchmarkSuite<TArgs extends unknown[], TResult>(
   options: BenchmarkSuiteOptions<TArgs, TResult>
@@ -49,16 +57,22 @@ export function runBenchmarkSuite<TArgs extends unknown[], TResult>(
     name,
     ours,
     lodashFn,
+    esToolkitFn,
     resultCases,
     speedArgs,
     speedIterations = 10_000,
   } = options;
 
-  const resultTest = runResultTest(ours, lodashFn, resultCases);
+  const hasEsToolkit = typeof esToolkitFn === 'function';
+  const resultTest = hasEsToolkit
+    ? runResultTestThree(ours, lodashFn, esToolkitFn, resultCases)
+    : runResultTest(ours, lodashFn, resultCases);
 
   const oursSpeed = () => ours(...speedArgs);
   const lodashSpeed = () => lodashFn(...speedArgs);
-  const speedCompare = compareSpeed(oursSpeed, lodashSpeed, speedIterations);
+  const speedCompare = hasEsToolkit
+    ? compareSpeedThree(oursSpeed, lodashSpeed, () => esToolkitFn!(...speedArgs), speedIterations)
+    : compareSpeed(oursSpeed, lodashSpeed, speedIterations);
 
   return {
     name,
@@ -67,13 +81,37 @@ export function runBenchmarkSuite<TArgs extends unknown[], TResult>(
       total: resultTest.total,
       passedCount: resultTest.passedCount,
       failedCount: resultTest.failedCount,
-      details: resultTest.details,
+      details: resultTest.details.map((d) => ({
+        ...d,
+        ...(hasEsToolkit && 'esToolkitResult' in d
+          ? {
+              esToolkitResult: (d as { esToolkitResult: TResult }).esToolkitResult,
+              oursMatchLodash: (d as { oursMatchLodash: boolean }).oursMatchLodash,
+              esToolkitMatchLodash: (d as { esToolkitMatchLodash: boolean }).esToolkitMatchLodash,
+            }
+          : {}),
+      })),
     },
     speedTest: {
       ours: speedCompare.ours,
       lodash: speedCompare.lodash,
-      faster: speedCompare.faster,
-      ratio: speedCompare.ratio,
+      ...(hasEsToolkit && 'esToolkit' in speedCompare
+        ? { esToolkit: speedCompare.esToolkit, ratios: speedCompare.ratios }
+        : {}),
+      faster: (hasEsToolkit && 'fastest' in speedCompare
+        ? speedCompare.fastest
+        : speedCompare.faster) as CompareSpeedWinner,
+      ratio: (() => {
+        const minAvg =
+          hasEsToolkit && 'esToolkit' in speedCompare
+            ? Math.min(
+                speedCompare.ours.avgMs,
+                speedCompare.lodash.avgMs,
+                speedCompare.esToolkit!.avgMs
+              )
+            : Math.min(speedCompare.ours.avgMs, speedCompare.lodash.avgMs);
+        return speedCompare.ours.avgMs / minAvg;
+      })(),
     },
   };
 }

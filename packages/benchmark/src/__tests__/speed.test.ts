@@ -1,25 +1,25 @@
-import { describe, expect, test } from "bun:test";
-import { compareSpeed, runSpeedTest } from "../speed";
+import { describe, expect, test } from 'bun:test';
+import { compareSpeed, compareSpeedThree, runSpeedTest } from '../speed';
 
-describe("runSpeedTest", () => {
-  test("반환값에 totalMs, avgMs, iterations, opsPerSec 포함", () => {
+describe('runSpeedTest', () => {
+  test('반환값에 totalMs, avgMs, iterations, opsPerSec 포함', () => {
     const result = runSpeedTest(() => 1 + 1, 100);
-    expect(result).toHaveProperty("totalMs");
-    expect(result).toHaveProperty("avgMs");
-    expect(result).toHaveProperty("iterations", 100);
-    expect(result).toHaveProperty("opsPerSec");
+    expect(result).toHaveProperty('totalMs');
+    expect(result).toHaveProperty('avgMs');
+    expect(result).toHaveProperty('iterations', 100);
+    expect(result).toHaveProperty('opsPerSec');
     expect(result.iterations).toBe(100);
     expect(result.avgMs).toBe(result.totalMs / 100);
   });
 
-  test("기본 iterations 10_000", () => {
+  test('기본 iterations 10_000', () => {
     const result = runSpeedTest(() => {});
     expect(result.iterations).toBe(10_000);
   });
 });
 
-describe("compareSpeed", () => {
-  test("ours vs lodash 결과와 faster, ratio 반환", () => {
+describe('compareSpeed', () => {
+  test('ours vs lodash 결과와 faster, ratio 반환', () => {
     const fast = () => 1;
     const slow = () => {
       let x = 0;
@@ -27,9 +27,27 @@ describe("compareSpeed", () => {
       return x;
     };
     const out = compareSpeed(fast, slow, 1000);
-    expect(out).toHaveProperty("ours");
-    expect(out).toHaveProperty("lodash");
-    expect(out.faster).toBe("ours");
+    expect(out).toHaveProperty('ours');
+    expect(out).toHaveProperty('lodash');
+    expect(out.faster).toBe('ours');
     expect(out.ratio).toBeGreaterThan(1);
+  });
+});
+
+describe('compareSpeedThree', () => {
+  test('ours / lodash / es-toolkit 3-way 결과와 fastest, ratios 반환', () => {
+    const a = () => 1;
+    const b = () => 2;
+    const c = () => 3;
+    const out = compareSpeedThree(a, b, c, 500);
+    expect(out).toHaveProperty('ours');
+    expect(out).toHaveProperty('lodash');
+    expect(out).toHaveProperty('esToolkit');
+    expect(out).toHaveProperty('fastest');
+    expect(out).toHaveProperty('ratios');
+    expect(['ours', 'lodash', 'es-toolkit']).toContain(out.fastest);
+    expect(out.ratios.ours).toBeGreaterThanOrEqual(1);
+    expect(out.ratios.lodash).toBeGreaterThanOrEqual(1);
+    expect(out.ratios.esToolkit).toBeGreaterThanOrEqual(1);
   });
 });

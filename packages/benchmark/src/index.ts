@@ -1,15 +1,15 @@
 /**
  * @lodash-v2/benchmark
- * - 속도 테스트: runSpeedTest, compareSpeed
- * - 결과 테스트: runResultTest (ours vs lodash 동일 결과 검증)
- * - 스위트: runBenchmarkSuite (결과 + 속도 한 번에)
+ * - 속도: runSpeedTest, compareSpeed, compareSpeedThree (ours / lodash / es-toolkit)
+ * - 결과: runResultTest, runResultTestThree
+ * - 스위트: runBenchmarkSuite (esToolkitFn 옵션으로 3-way 비교)
  */
 
-export { runSpeedTest, compareSpeed } from "./speed";
-export type { SpeedResult } from "./speed";
+export { runSpeedTest, compareSpeed, compareSpeedThree } from './speed';
+export type { SpeedResult, CompareSpeedWinner } from './speed';
 
-export { runResultTest } from "./result";
-export type { ResultCase, ResultTestResult } from "./result";
+export { runResultTest, runResultTestThree } from './result';
+export type { ResultCase, ResultTestResult, ResultTestThreeResult } from './result';
 
-export { runBenchmarkSuite, runSpeedOnly } from "./suite";
-export type { BenchmarkSuiteOptions, BenchmarkSuiteResult } from "./suite";
+export { runBenchmarkSuite, runSpeedOnly } from './suite';
+export type { BenchmarkSuiteOptions, BenchmarkSuiteResult } from './suite';

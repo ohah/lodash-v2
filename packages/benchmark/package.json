@@ -5,10 +5,12 @@
   "scripts": {
     "test": "bun test",
     "run": "bun run src/run.ts",
-    "compare": "bun run src/compare.ts"
+    "compare": "bun run src/compare.ts",
+    "generate-feedback": "bun run scripts/generate-feedback-report.ts"
   },
   "dependencies": {
     "@lodash-v2/core": "workspace:*",
+    "es-toolkit": "1.44",
     "lodash": "^4.17.23"
   },
   "devDependencies": {

@@ -35,7 +35,7 @@ export function runResultTest<TArgs extends unknown[], TResult>(
   lodashFn: (...args: TArgs) => TResult,
   cases: Array<ResultCase<TArgs, TResult>>
 ): ResultTestResult<TResult> {
-  const details: ResultTestResult<TResult>["details"] = [];
+  const details: ResultTestResult<TResult>['details'] = [];
   let passedCount = 0;
 
   for (const c of cases) {
@@ -43,7 +43,7 @@ export function runResultTest<TArgs extends unknown[], TResult>(
     let actual: TResult;
     try {
       actual = ours(...c.args);
-    } catch (e) {
+    } catch {
       actual = undefined as TResult;
     }
     const passed = deepEqual(actual, expected);
@@ -66,11 +66,80 @@ export function runResultTest<TArgs extends unknown[], TResult>(
   };
 }
 
+export interface ResultTestThreeResult<TResult> {
+  passed: boolean;
+  total: number;
+  passedCount: number;
+  failedCount: number;
+  details: Array<{
+    name: string;
+    passed: boolean;
+    expected: TResult;
+    actual: TResult;
+    esToolkitResult: TResult;
+    oursMatchLodash: boolean;
+    esToolkitMatchLodash: boolean;
+    args: unknown[];
+  }>;
+}
+
+/**
+ * ours / lodash / es-toolkit 세 구현의 결과를 비교합니다.
+ * 기준(expected)은 lodash 결과입니다.
+ */
+export function runResultTestThree<TArgs extends unknown[], TResult>(
+  ours: (...args: TArgs) => TResult,
+  lodashFn: (...args: TArgs) => TResult,
+  esToolkitFn: (...args: TArgs) => TResult,
+  cases: Array<ResultCase<TArgs, TResult>>
+): ResultTestThreeResult<TResult> {
+  const details: ResultTestThreeResult<TResult>['details'] = [];
+  let passedCount = 0;
+
+  for (const c of cases) {
+    const expected = (c.expected ?? lodashFn(...c.args)) as TResult;
+    let actual: TResult;
+    let esToolkitResult: TResult;
+    try {
+      actual = ours(...c.args);
+    } catch {
+      actual = undefined as TResult;
+    }
+    try {
+      esToolkitResult = esToolkitFn(...c.args);
+    } catch {
+      esToolkitResult = undefined as TResult;
+    }
+    const oursMatchLodash = deepEqual(actual, expected);
+    const esToolkitMatchLodash = deepEqual(esToolkitResult, expected);
+    const passed = oursMatchLodash;
+    if (passed) passedCount++;
+    details.push({
+      name: c.name,
+      passed: oursMatchLodash,
+      expected,
+      actual,
+      esToolkitResult,
+      oursMatchLodash,
+      esToolkitMatchLodash,
+      args: c.args,
+    });
+  }
+
+  return {
+    passed: passedCount === cases.length,
+    total: cases.length,
+    passedCount,
+    failedCount: cases.length - passedCount,
+    details,
+  };
+}
+
 /** 간단한 deep equal (JSON 직렬화 가능한 값용) */
 function deepEqual(a: unknown, b: unknown): boolean {
   if (Object.is(a, b)) return true;
   if (a == null || b == null) return false;
-  if (typeof a !== "object" || typeof b !== "object") return false;
+  if (typeof a !== 'object' || typeof b !== 'object') return false;
   try {
     return JSON.stringify(a) === JSON.stringify(b);
   } catch {

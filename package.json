@@ -2,18 +2,27 @@
   "name": "lodash-v2",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "bun run --filter='*' build",
     "test": "bun test",
     "test:core": "bun test packages/core",
     "test:benchmark": "bun test packages/benchmark",
-    "benchmark": "bun run packages/benchmark/run.ts",
-    "benchmark:compare": "bun run packages/benchmark/compare.ts"
+    "lint": "oxlint .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt . --check",
+    "benchmark": "bun run --filter=@lodash-v2/benchmark run",
+    "benchmark:compare": "bun run --filter=@lodash-v2/benchmark compare",
+    "generate-feedback": "bun run --filter=@lodash-v2/benchmark generate-feedback"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "es-toolkit": "1.44",
     "lodash": "^4.17.23",
+    "oxfmt": "latest",
+    "oxlint": "latest",
     "typescript": "^5"
   }
 }
