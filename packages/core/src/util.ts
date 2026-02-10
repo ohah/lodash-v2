@@ -11,7 +11,7 @@ export const constant = () => {};
 export const defaultTo = () => {};
 export const flow = () => {};
 export const flowRight = () => {};
-export const identity = () => {};
+export const identity = <T>(v: T) => v;
 export const iteratee = () => {};
 export const matches = () => {};
 export const matchesProperty = () => {};
@@ -26,7 +26,23 @@ export const overEvery = () => {};
 export const overSome = () => {};
 export const property = () => {};
 export const propertyOf = () => {};
-export const range = () => {};
+export const range = (start?: number, end?: number, step?: number) => {
+  if (end === undefined) {
+    end = start as number;
+    start = 0 as any;
+  }
+  const s = Number(start) || 0;
+  const e = Number(end) || 0;
+  const st = step === undefined ? 1 : Number(step);
+  const res: number[] = [];
+  if (st === 0) return res;
+  if (st > 0) {
+    for (let i = s; i < e; i += st) res.push(i);
+  } else {
+    for (let i = s; i > e; i += st) res.push(i);
+  }
+  return res;
+};
 export const rangeRight = () => {};
 export const runInContext = () => {};
 export const stubArray = () => {};

@@ -16,5 +16,13 @@ export const minBy = () => {};
 export const multiply = () => {};
 export const round = () => {};
 export const subtract = () => {};
-export const sum = () => {};
+export const sum = (array?: number[]) => {
+  if (!array || array.length === 0) return 0;
+  let total = 0;
+  for (let i = 0; i < array.length; i++) {
+    // coerce to number; if it's not a number this will produce NaN similar to lodash behavior
+    total += array[i] as unknown as number;
+  }
+  return total;
+};
 export const sumBy = () => {};

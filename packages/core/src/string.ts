@@ -3,7 +3,20 @@
  * @see https://lodash.com/docs/4.17.23#String
  */
 
-export const camelCase = () => {};
+export const camelCase = (str?: string) => {
+  if (str == null) return '';
+  // convert separators to spaces, then camelCase
+  const s = String(str).replace(/[-_]+/g, ' ').trim();
+  if (s.length === 0) return '';
+  const parts = s.split(/\s+/);
+  return parts
+    .map((p, i) => {
+      const lower = p.toLowerCase();
+      if (i === 0) return lower;
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join('');
+};
 export const capitalize = () => {};
 export const deburr = () => {};
 export const endsWith = () => {};
@@ -25,7 +38,14 @@ export const startsWith = () => {};
 export const template = () => {};
 export const toLower = () => {};
 export const toUpper = () => {};
-export const trim = () => {};
+export const trim = (str?: string, chars?: string) => {
+  if (str == null) return '';
+  const s = String(str);
+  if (chars === undefined) return s.trim();
+  // custom trim characters
+  const pattern = new RegExp('^[' + chars.replace(/[-\\\]\/\^$*+?.()|[\]{}]/g, '\\$&') + ']+|[' + chars.replace(/[-\\\]\/\^$*+?.()|[\]{}]/g, '\\$&') + ']+$', 'g');
+  return s.replace(pattern, '');
+};
 export const trimEnd = () => {};
 export const trimStart = () => {};
 export const truncate = () => {};
