@@ -7,11 +7,45 @@ export const add = () => {};
 export const ceil = () => {};
 export const divide = () => {};
 export const floor = () => {};
-export const max = () => {};
+export const max = (array?: any[]) => {
+  if (!array || array.length === 0) return undefined;
+  let found = undefined;
+  for (let i = 0; i < array.length; i++) {
+    const v = array[i];
+    if (found === undefined) {
+      found = v;
+      continue;
+    }
+    // Use > to compare; matches lodash behavior for numbers/strings
+    if (v > found) found = v;
+  }
+  return found;
+};
 export const maxBy = () => {};
-export const mean = () => {};
+export const mean = (array?: number[]) => {
+  if (!array || array.length === 0) return NaN;
+  let total = 0;
+  let count = 0;
+  for (let i = 0; i < array.length; i++) {
+    total += array[i] as unknown as number;
+    count++;
+  }
+  return total / count;
+};
 export const meanBy = () => {};
-export const min = () => {};
+export const min = (array?: any[]) => {
+  if (!array || array.length === 0) return undefined;
+  let found = undefined;
+  for (let i = 0; i < array.length; i++) {
+    const v = array[i];
+    if (found === undefined) {
+      found = v;
+      continue;
+    }
+    if (v < found) found = v;
+  }
+  return found;
+};
 export const minBy = () => {};
 export const multiply = () => {};
 export const round = () => {};
