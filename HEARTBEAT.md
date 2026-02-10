@@ -53,11 +53,13 @@
 
 4. **변경 분 커밋(선택)**
    - 변경이 있으면 `git status` 확인 후 add → commit (필요 시 push). 턴 끝나기 전에 실행.
+   - **커밋 메시지**: `docs/COMMIT.md` 규칙 따르기 (type: 제목, 예: `feat: ...`, `fix: ...`).
 
 ---
 
 ## 참고 문서
 
+- **커밋 규칙**: `docs/COMMIT.md` (에이전트 커밋 시 참고)
 - **해석 가이드**: `docs/BENCHMARK_AND_RESULT_FEEDBACK.md`
 - **최신 실패/벤치 요약**: `bun run generate-feedback` 후 생성되는 피드백 보고서
 
