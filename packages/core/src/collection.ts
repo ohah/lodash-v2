@@ -44,7 +44,18 @@ export const map = (array: unknown[], fn: (value: unknown) => unknown): unknown[
 };
 export const orderBy = () => {};
 export const partition = () => {};
-export const reduce = () => {};
+export const reduce = (array: unknown[], fn: (acc: unknown, value: unknown) => unknown, init?: unknown): unknown => {
+  if (!Array.isArray(array)) {
+    return init as unknown;
+  }
+  
+  let result = init as unknown;
+  for (const item of array) {
+    result = fn(result, item);
+  }
+  
+  return result as unknown;
+};
 export const reduceRight = () => {};
 export const reject = () => {};
 export const sample = () => {};
