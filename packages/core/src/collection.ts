@@ -4,7 +4,19 @@
  */
 
 export const countBy = () => {};
-export const every = () => {};
+export const every = (array: unknown[], fn: (value: unknown) => boolean): boolean => {
+  if (!Array.isArray(array)) {
+    return true;
+  }
+  
+  for (const item of array) {
+    if (!fn(item)) {
+      return false;
+    }
+  }
+  
+  return true;
+};
 export const filter = (array: unknown[], fn: (value: unknown) => boolean): unknown[] => {
   if (!Array.isArray(array)) {
     return [];
