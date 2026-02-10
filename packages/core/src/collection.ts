@@ -41,7 +41,20 @@ export const forEachRight = () => {};
 export const groupBy = () => {};
 export const includes = () => {};
 export const invokeMap = () => {};
-export const keyBy = () => {};
+export const keyBy = (array: unknown[], fn: (value: unknown) => string): Record<string, unknown> => {
+  const result: Record<string, unknown> = {};
+  
+  if (!Array.isArray(array)) {
+    return result;
+  }
+  
+  for (const item of array) {
+    const key = fn(item);
+    result[key] = item;
+  }
+  
+  return result;
+};
 export const map = (array: unknown[], fn: (value: unknown) => unknown): unknown[] => {
   if (!Array.isArray(array)) {
     return [];
