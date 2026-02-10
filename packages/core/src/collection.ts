@@ -17,7 +17,18 @@ export const groupBy = () => {};
 export const includes = () => {};
 export const invokeMap = () => {};
 export const keyBy = () => {};
-export const map = () => {};
+export const map = (array: unknown[], fn: (value: unknown) => unknown): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+  
+  const result: unknown[] = [];
+  for (const item of array) {
+    result.push(fn(item));
+  }
+  
+  return result;
+};
 export const orderBy = () => {};
 export const partition = () => {};
 export const reduce = () => {};
