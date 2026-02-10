@@ -115,7 +115,15 @@ export const sample = () => {};
 export const sampleSize = () => {};
 export const shuffle = () => {};
 export const size = () => {};
-export const some = () => {};
+export const some = (array: unknown[], fn: (value: unknown) => boolean): boolean => {
+  if (!Array.isArray(array)) {
+    return false;
+  }
+  for (const item of array) {
+    if (fn(item)) return true;
+  }
+  return false;
+};
 export const sortBy = (array: unknown[], fn: (value: unknown) => number | string): unknown[] => {
   if (!Array.isArray(array)) {
     return [];
