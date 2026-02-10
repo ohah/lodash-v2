@@ -155,7 +155,12 @@ export const sortedLastIndexBy = () => {};
 export const sortedLastIndexOf = () => {};
 export const sortedUniq = () => {};
 export const sortedUniqBy = () => {};
-export const tail = () => {};
+export const tail = (array?: unknown[]): unknown[] => {
+  if (!Array.isArray(array) || array.length === 0) {
+    return [];
+  }
+  return array.slice(1);
+};
 export const take = (array: unknown[], n: number = 1): unknown[] => {
   if (!Array.isArray(array)) {
     return [];
