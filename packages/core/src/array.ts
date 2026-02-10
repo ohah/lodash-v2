@@ -121,12 +121,22 @@ export const head = (array?: unknown[]): unknown | undefined => {
   return array[0];
 };
 export const indexOf = () => {};
-export const initial = () => {};
+export const initial = (array?: unknown[]): unknown[] => {
+  if (!Array.isArray(array) || array.length === 0) {
+    return [];
+  }
+  return array.slice(0, array.length - 1);
+};
 export const intersection = () => {};
 export const intersectionBy = () => {};
 export const intersectionWith = () => {};
 export const join = () => {};
-export const last = () => {};
+export const last = (array?: unknown[]): unknown | undefined => {
+  if (!Array.isArray(array) || array.length === 0) {
+    return undefined;
+  }
+  return array[array.length - 1];
+};
 export const lastIndexOf = () => {};
 export const nth = () => {};
 export const pull = () => {};
