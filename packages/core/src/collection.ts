@@ -19,7 +19,19 @@ export const filter = (array: unknown[], fn: (value: unknown) => boolean): unkno
   
   return result;
 };
-export const find = () => {};
+export const find = (array: unknown[], fn: (value: unknown) => boolean): unknown | undefined => {
+  if (!Array.isArray(array)) {
+    return undefined;
+  }
+  
+  for (const item of array) {
+    if (fn(item)) {
+      return item;
+    }
+  }
+  
+  return undefined;
+};
 export const findLast = () => {};
 export const flatMap = () => {};
 export const flatMapDeep = () => {};
