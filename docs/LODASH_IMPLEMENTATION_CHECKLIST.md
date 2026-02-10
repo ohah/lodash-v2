@@ -71,7 +71,7 @@
 | 28 | `isNumber` | 숫자, 문자열, NaN | [ ] |
 | 29 | `isEmpty` | 빈 배열, 빈 객체, 요소 있음 | [ ] |
 | 30 | `toArray` | 객체, 문자열 | [ ] |
-| 31 | `cloneDeep` | 중첩 객체 | [ ] |
+| 31 | `cloneDeep` | 중첩 객체 | [x] |
 
 ### Math (`math.ts`)
 
