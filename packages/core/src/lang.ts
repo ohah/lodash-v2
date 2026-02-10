@@ -13,7 +13,9 @@ export const eq = () => {};
 export const gt = () => {};
 export const gte = () => {};
 export const isArguments = () => {};
-export const isArray = () => {};
+export const isArray = (value: unknown): boolean => {
+  return Array.isArray(value);
+};
 export const isArrayBuffer = () => {};
 export const isArrayLike = () => {};
 export const isArrayLikeObject = () => {};
