@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>@lodash-v2/core Web 로드 테스트</title>
+</head>
+<body>
+  <script type="module">
+    (async () => {
+      const result = { ok: false, message: '' };
+      try {
+        const mod = await import('./dist/index.js');
+        if (typeof mod.chunk !== 'function' || typeof mod.identity !== 'function') {
+          result.message = 'export 없음';
+        } else {
+          mod.chunk([1, 2, 3], 2);
+          mod.identity(42);
+          result.ok = true;
+        }
+      } catch (e) {
+        result.message = e.message || String(e);
+      }
+      window.__LODASH_V2_WEB_TEST__ = result;
+    })();
+  </script>
+</body>
+</html>
