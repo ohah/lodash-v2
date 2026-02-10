@@ -1,7 +1,7 @@
 # 로대시 함수 구현 체크리스트
 
 - **기준**: lodash 4.17.23
-- **검증**: `bun test packages/benchmark/src/__tests__/result-equivalence.test.ts` → 동등성 통과 후 Phase 2 진행
+- **검증**: `bun run --filter=@lodash-v2/test test` (동등성 테스트) → 동등성 통과 후 Phase 2 진행
 
 **진행 순서:**  
 ① **Phase 1** — 한 번에 한 함수씩 구현 → **함수 100% 구현**(동등성 테스트 전부 통과)까지 진행  
@@ -106,7 +106,7 @@
 
 ## Phase 1 완료 조건
 
-- [ ] `bun test packages/benchmark/src/__tests__/result-equivalence.test.ts` **전부 통과**
+- [ ] `bun run --filter=@lodash-v2/test test` (동등성 테스트) **전부 통과**
 - [ ] 위 표의 구현 여부 전부 체크
 
 ---
@@ -177,7 +177,7 @@ Phase 1이 모두 통과한 뒤, **함수 하나씩** 아래 순서로 점검합
 
 ```bash
 # 결과 동등성만
-bun test packages/benchmark/src/__tests__/result-equivalence.test.ts
+bun run --filter=@lodash-v2/test test
 
 # 벤치마크만
 bun run benchmark

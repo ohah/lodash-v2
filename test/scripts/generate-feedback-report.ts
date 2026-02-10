@@ -3,7 +3,7 @@
  * AI 셀프 피드백용 마크다운 보고서 생성
  * - 결과 동등성 실패 목록 (함수, 케이스, args, expected, actual)
  * - 벤치마크 요약 (함수별 ours / lodash / es-toolkit)
- * 출력: ../../docs/feedback-report.md
+ * 출력: ../../docs/feedback-report.md (워크스페이스 루트 docs)
  */
 
 import { collectFeedback } from '../src/collect-feedback';
@@ -13,7 +13,7 @@ import { join } from 'path';
 const iterations = 50_000;
 const data = collectFeedback(iterations);
 
-const outDir = join(import.meta.dir, '../../../docs');
+const outDir = join(import.meta.dir, '../../docs');
 const outPath = join(outDir, 'feedback-report.md');
 
 function escapeTableCell(s: string): string {
@@ -72,7 +72,7 @@ ${benchmarkRows}
 
 1. **결과 실패**: 위 표에서 \`actual\`을 \`expected\`와 같게 만드세요. (\`packages/core\` 수정)
 2. **벤치마크**: \`fastest\`가 ours가 아니면 해당 함수의 반복/할당/알고리즘을 점검하세요.
-3. **재검증**: 수정 후 \`bun test packages/benchmark/src/__tests__/result-equivalence.test.ts\`, \`bun run benchmark\`, \`bun run generate-feedback\` 로 다시 확인하세요.
+3. **재검증**: 수정 후 \`bun test test/src/__tests__/result-equivalence.test.ts\`(또는 \`bun run --filter=@lodash-v2/test test\`), \`bun run benchmark\`, \`bun run generate-feedback\` 로 다시 확인하세요.
 
 자세한 해석 방법은 \`docs/BENCHMARK_AND_RESULT_FEEDBACK.md\`를 참고하세요.
 `;

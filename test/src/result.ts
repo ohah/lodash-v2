@@ -26,9 +26,6 @@ export interface ResultTestResult<TResult> {
 
 /**
  * 단일 함수에 대해 우리 구현 vs lodash 결과가 같은지 테스트합니다.
- * @param ours 우리 구현 함수
- * @param lodashFn lodash 함수
- * @param cases 테스트 케이스 배열 (각 케이스는 name, args)
  */
 export function runResultTest<TArgs extends unknown[], TResult>(
   ours: (...args: TArgs) => TResult,

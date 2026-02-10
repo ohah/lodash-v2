@@ -3,19 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "test"
   ],
   "scripts": {
     "build": "bun run --filter='*' build",
     "test": "bun test",
     "test:core": "bun test packages/core",
-    "test:benchmark": "bun test packages/benchmark",
+    "test:equivalence": "bun run --filter=@lodash-v2/test test",
     "lint": "oxlint .",
     "format": "oxfmt .",
     "format:check": "oxfmt . --check",
-    "benchmark": "bun run --filter=@lodash-v2/benchmark run",
-    "benchmark:compare": "bun run --filter=@lodash-v2/benchmark compare",
-    "generate-feedback": "bun run --filter=@lodash-v2/benchmark generate-feedback"
+    "benchmark": "bun run --filter=@lodash-v2/test run",
+    "benchmark:compare": "bun run --filter=@lodash-v2/test compare",
+    "generate-feedback": "bun run --filter=@lodash-v2/test generate-feedback"
   },
   "devDependencies": {
     "@types/bun": "latest",

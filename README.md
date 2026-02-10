@@ -51,7 +51,10 @@ bun run generate-feedback    # AI 셀프 피드백용 보고서 생성 → docs/
 
 현재는 모두 `() => {}` 플레이스홀더입니다. 위 목록과 동일한 시그니처로 구현하면 됩니다.
 
-### @lodash-v2/benchmark
+### test (동등성·벤치마크)
+
+워크스페이스 루트의 **test** 패키지는 배포 환경과 동일하게 **@lodash-v2/core**를 의존성으로만 사용합니다.  
+동등성 테스트·벤치마크·피드백 보고서 생성이 모두 여기서 실행됩니다.
 
 - **속도 테스트**
   - `runSpeedTest(fn, iterations)` : 단일 함수 N회 실행 후 `totalMs`, `avgMs`, `opsPerSec` 반환
@@ -63,12 +66,12 @@ bun run generate-feedback    # AI 셀프 피드백용 보고서 생성 → docs/
 - **스위트**
   - `runBenchmarkSuite({ name, ours, lodashFn, esToolkitFn?, resultCases, speedArgs })` : `esToolkitFn` 있으면 3-way 비교
 
-#### 벤치마크 테스트 작성 예시
+#### 벤치마크 테스트 작성 예시 (test 패키지 내부 또는 `import from '@lodash-v2/test'`)
 
 ```ts
 import _ from 'lodash';
 import { chunk } from '@lodash-v2/core';
-import { runBenchmarkSuite } from '@lodash-v2/benchmark';
+import { runBenchmarkSuite } from '@lodash-v2/test';
 
 const result = runBenchmarkSuite({
   name: 'chunk',

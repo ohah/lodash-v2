@@ -13,8 +13,17 @@
         "typescript": "^5",
       },
     },
-    "packages/benchmark": {
-      "name": "@lodash-v2/benchmark",
+    "packages/core": {
+      "name": "@lodash-v2/core",
+      "version": "0.1.0",
+      "devDependencies": {
+        "@playwright/test": "^1.58.2",
+        "bunup": "^0.16.26",
+        "typescript": "^5",
+      },
+    },
+    "test": {
+      "name": "@lodash-v2/test",
       "version": "0.1.0",
       "dependencies": {
         "@lodash-v2/core": "workspace:*",
@@ -23,15 +32,6 @@
       },
       "devDependencies": {
         "@types/bun": "latest",
-        "typescript": "^5",
-      },
-    },
-    "packages/core": {
-      "name": "@lodash-v2/core",
-      "version": "0.1.0",
-      "devDependencies": {
-        "@playwright/test": "^1.58.2",
-        "bunup": "^0.16.26",
         "typescript": "^5",
       },
     },
@@ -55,9 +55,9 @@
 
     "@emnapi/wasi-threads": ["@emnapi/wasi-threads@1.1.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ=="],
 
-    "@lodash-v2/benchmark": ["@lodash-v2/benchmark@workspace:packages/benchmark"],
-
     "@lodash-v2/core": ["@lodash-v2/core@workspace:packages/core"],
+
+    "@lodash-v2/test": ["@lodash-v2/test@workspace:test"],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.1.1", "", { "dependencies": { "@emnapi/core": "^1.7.1", "@emnapi/runtime": "^1.7.1", "@tybys/wasm-util": "^0.10.1" } }, "sha512-p64ah1M1ld8xjWv3qbvFwHiFVWrq1yFvV4f7w+mzaqiR4IlSgkqhcRdHwsGgomwzBH51sRY4NEowLxnaBjcW/A=="],
 

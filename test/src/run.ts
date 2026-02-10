@@ -1,8 +1,7 @@
 #!/usr/bin/env bun
 /**
  * 벤치마크 실행 스크립트 (ours / lodash / es-toolkit 3-way)
- * 사용법: bun run packages/benchmark/run.ts
- * 또는: bun run benchmark (루트에서)
+ * 사용법: bun run test (또는 루트에서 bun run benchmark)
  * RUN_FN=chunk bun run benchmark
  */
 

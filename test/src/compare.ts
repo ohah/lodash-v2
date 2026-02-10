@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * 결과 비교 스크립트 (ours / lodash / es-toolkit 동일 입력에 대한 결과)
- * 사용법: bun run packages/benchmark/compare.ts
+ * 사용법: bun run compare (test 패키지에서) 또는 루트에서 bun run benchmark:compare
  */
 
 import * as _ from 'lodash';

@@ -18,7 +18,7 @@
 ```bash
 bun run benchmark
 # 또는
-bun run --filter=@lodash-v2/benchmark run
+bun run --filter=@lodash-v2/test run
 ```
 
 ### 2.2 콘솔 출력 예시
@@ -53,7 +53,7 @@ bun run --filter=@lodash-v2/benchmark run
 ### 3.1 실행 방법
 
 ```bash
-bun test packages/benchmark/src/__tests__/result-equivalence.test.ts
+bun run --filter=@lodash-v2/test test
 ```
 
 실패 시 각 테스트별로 `expect(received).toBe(expected)` 형태로 나오며, `received === false`, `expected === true` 인 경우가 **결과가 lodash와 다르다**는 의미입니다.
@@ -124,10 +124,10 @@ bun test packages/benchmark/src/__tests__/result-equivalence.test.ts
 ```bash
 bun run generate-feedback
 # 또는 (루트에서)
-bun run --filter=@lodash-v2/benchmark generate-feedback
+bun run --filter=@lodash-v2/test generate-feedback
 ```
 
-- **스크립트**: `packages/benchmark/scripts/generate-feedback-report.ts`
+- **스크립트**: `test/scripts/generate-feedback-report.ts`
 - **출력 파일**: **`docs/feedback-report.md`**
 - **내용**:
   1. 결과 동등성 실패 요약 (함수, 케이스, args, expected, actual)
@@ -142,13 +142,13 @@ bun run --filter=@lodash-v2/benchmark generate-feedback
 
 1. **`docs/feedback-report.md` (또는 동일 형식 문서) 존재 여부**
    - 있으면: "결과 동등성 실패 목록" 테이블에서 `expected` vs `actual` 비교 후 해당 `packages/core/src/*.ts` 함수 수정.
-   - 없으면: `bun test packages/benchmark/src/__tests__/result-equivalence.test.ts` 실행 출력에서 실패한 테스트의 `expected`/`actual`을 위 표 형식으로 정리해 사용.
+   - 없으면: `bun run --filter=@lodash-v2/test test` 실행 출력에서 실패한 테스트의 `expected`/`actual`을 위 표 형식으로 정리해 사용.
 
 2. **벤치마크 목표**
    - `fastest`가 `ours`인지 확인.
    - 아니면 해당 함수의 구현(반복문, 할당 횟수, 불필요한 복사 등)을 점검하고 최적화.
 
 3. **수정 후 재검증**
-   - `bun test packages/benchmark/src/__tests__/result-equivalence.test.ts`
+   - `bun run --filter=@lodash-v2/test test`
    - `bun run benchmark`
    - 필요 시 `docs/feedback-report.md` 재생성 후 다시 위 체크리스트 적용.
