@@ -3,7 +3,18 @@
  * @see https://lodash.com/docs/4.17.23#Collection
  */
 
-export const countBy = () => {};
+export const countBy = (array: unknown[], fn: ((value: unknown) => string | unknown) | string): Record<string, number> => {
+  const result: Record<string, number> = {};
+  if (!Array.isArray(array)) return result;
+
+  for (const item of array) {
+    const key = typeof fn === 'function' ? fn(item) : (item as any)[fn];
+    const k = String(key);
+    result[k] = (result[k] || 0) + 1;
+  }
+
+  return result;
+};
 export const every = (array: unknown[], fn: (value: unknown) => boolean): boolean => {
   if (!Array.isArray(array)) {
     return true;
@@ -67,7 +78,14 @@ export const groupBy = (array: unknown[], fn: (value: unknown) => string | unkno
   
   return result;
 };
-export const includes = () => {};
+export const includes = (collection: any, value: unknown): boolean => {
+  if (collection == null) return false;
+  if (Array.isArray(collection)) return collection.includes(value);
+  if (typeof collection === 'string') return collection.indexOf(String(value)) !== -1;
+  // object: check values
+  if (typeof collection === 'object') return Object.values(collection).includes(value);
+  return false;
+};
 export const invokeMap = () => {};
 export const keyBy = (array: unknown[], fn: (value: unknown) => string | unknown): Record<string, unknown> => {
   const result: Record<string, unknown> = {};
