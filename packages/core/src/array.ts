@@ -9,8 +9,10 @@ export const chunk = (array: unknown[], size: number = 1): unknown[][] => {
   }
 
   const result: unknown[][] = [];
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size));
+  let index = 0;
+  while (index < array.length) {
+    result.push(array.slice(index, index + size));
+    index += size;
   }
   return result;
 };
