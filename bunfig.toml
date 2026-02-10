@@ -1,0 +1,6 @@
+[install]
+# 모노레포 워크스페이스
+production = false
+
+[test]
+# 벤치마크/유닛 테스트 (preload 없음)
