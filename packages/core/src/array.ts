@@ -113,7 +113,21 @@ export const flatten = (array: unknown[]): unknown[] => {
 };
 export const flattenDeep = () => {};
 export const flattenDepth = () => {};
-export const fromPairs = () => {};
+export const fromPairs = (pairs?: [string, unknown][]): Record<string, unknown> => {
+  const result: Record<string, unknown> = {};
+  
+  if (!Array.isArray(pairs)) {
+    return result;
+  }
+  
+  for (const pair of pairs) {
+    if (Array.isArray(pair) && pair.length >= 2 && typeof pair[0] === 'string') {
+      result[pair[0]] = pair[1];
+    }
+  }
+  
+  return result;
+};
 export const head = (array?: unknown[]): unknown | undefined => {
   if (!Array.isArray(array) || array.length === 0) {
     return undefined;
