@@ -60,7 +60,13 @@ export const isWeakMap = () => {};
 export const isWeakSet = () => {};
 export const lt = () => {};
 export const lte = () => {};
-export const toArray = () => {};
+export const toArray = (value: any): any[] => {
+  if (value == null) return [];
+  if (Array.isArray(value)) return value;
+  if (typeof value === 'string') return value.split('');
+  if (typeof value === 'object') return Object.values(value);
+  return [value];
+};
 export const toFinite = () => {};
 export const toInteger = () => {};
 export const toLength = () => {};
