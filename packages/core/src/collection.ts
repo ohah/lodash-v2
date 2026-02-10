@@ -38,7 +38,23 @@ export const flatMapDeep = () => {};
 export const flatMapDepth = () => {};
 export const forEach = () => {};
 export const forEachRight = () => {};
-export const groupBy = () => {};
+export const groupBy = (array: unknown[], fn: (value: unknown) => string | unknown): Record<string, unknown[]> => {
+  const result: Record<string, unknown[]> = {};
+  
+  if (!Array.isArray(array)) {
+    return result;
+  }
+  
+  for (const item of array) {
+    const key = typeof fn === 'function' ? fn(item) : (item as any)[fn];
+    if (!result[key]) {
+      result[key] = [];
+    }
+    result[key].push(item);
+  }
+  
+  return result;
+};
 export const includes = () => {};
 export const invokeMap = () => {};
 export const keyBy = (array: unknown[], fn: (value: unknown) => string | unknown): Record<string, unknown> => {
