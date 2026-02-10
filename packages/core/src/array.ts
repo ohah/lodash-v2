@@ -175,7 +175,23 @@ export const takeWhile = () => {};
 export const union = () => {};
 export const unionBy = () => {};
 export const unionWith = () => {};
-export const uniq = () => {};
+export const uniq = (array?: unknown[]): unknown[] => {
+  const seen = new Set();
+  const result: unknown[] = [];
+  
+  if (!Array.isArray(array)) {
+    return [];
+  }
+  
+  for (const item of array) {
+    if (!seen.has(item)) {
+      seen.add(item);
+      result.push(item);
+    }
+  }
+  
+  return result;
+};
 export const uniqBy = () => {};
 export const uniqWith = () => {};
 export const unzip = () => {};
