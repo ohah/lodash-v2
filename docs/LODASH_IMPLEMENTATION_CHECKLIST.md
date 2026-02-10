@@ -32,9 +32,9 @@
 | 10 | `last` | 일반, 빈 배열 | [x] |
 | 11 | `initial` | 일반 | [x] |
 | 12 | `tail` | 일반 | [ ] |
-| 13 | `uniq` | 중복 제거, 빈 배열 | [ ] |
-| 14 | `without` | 기본 | [ ] |
-| 15 | `fromPairs` | 기본 | [ ] |
+| 13 | `uniq` | 중복 제거, 빈 배열 | [x] |
+| 14 | `without` | 기본 | [x] |
+| 15 | `fromPairs` | 기본 | [x] |
 
 ### Collection (`collection.ts`)
 
