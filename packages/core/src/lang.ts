@@ -5,7 +5,18 @@
 
 export const castArray = () => {};
 export const clone = () => {};
-export const cloneDeep = () => {};
+export const cloneDeep = <T>(value: T): T => {
+  // Prefer structuredClone when available (Node 17+, Bun), fallback to JSON for plain objects
+  try {
+    if (typeof (globalThis as any).structuredClone === 'function') {
+      return (globalThis as any).structuredClone(value);
+    }
+  } catch (e) {
+    // ignore and fallback
+  }
+  // Fallback: JSON deep clone (note: won't handle functions or special types)
+  return JSON.parse(JSON.stringify(value));
+};
 export const cloneDeepWith = () => {};
 export const cloneWith = () => {};
 export const conformsTo = () => {};
