@@ -55,7 +55,7 @@ export const isNative = () => {};
 export const isNil = () => {};
 export const isNull = () => {};
 export const isNumber = (value: unknown): boolean => {
-  return typeof value === 'number' && !Number.isNaN(value);
+  return typeof value === 'number';
 };
 export const isObject = () => {};
 export const isObjectLike = () => {};
