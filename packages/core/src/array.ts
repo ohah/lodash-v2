@@ -48,21 +48,78 @@ export const concat = (array: unknown[] = [], ...values: unknown[]): unknown[] =
 
   return result;
 };
-export const difference = () => {};
+export const difference = (array: unknown[], ...values: unknown[]): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+
+  // Flatten all values into a single array
+  const valuesArray: unknown[] = [];
+  for (const value of values) {
+    if (Array.isArray(value)) {
+      valuesArray.push(...value);
+    } else {
+      valuesArray.push(value);
+    }
+  }
+
+  // Filter out elements that are in valuesArray
+  return array.filter(item => !valuesArray.includes(item));
+};
 export const differenceBy = () => {};
 export const differenceWith = () => {};
-export const drop = () => {};
-export const dropRight = () => {};
+export const drop = (array: unknown[], n: number = 1): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+  
+  if (n <= 0) {
+    return [...array];
+  }
+  
+  return array.slice(n);
+};
+export const dropRight = (array: unknown[], n: number = 1): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+  
+  if (n <= 0) {
+    return [...array];
+  }
+  
+  const dropCount = Math.min(n, array.length);
+  return array.slice(0, array.length - dropCount);
+};
 export const dropRightWhile = () => {};
 export const dropWhile = () => {};
 export const fill = () => {};
 export const findIndex = () => {};
 export const findLastIndex = () => {};
-export const flatten = () => {};
+export const flatten = (array: unknown[]): unknown[] => {
+  if (!Array.isArray(array)) {
+    return array;
+  }
+  
+  const result: unknown[] = [];
+  for (const item of array) {
+    if (Array.isArray(item)) {
+      result.push(...item);
+    } else {
+      result.push(item);
+    }
+  }
+  return result;
+};
 export const flattenDeep = () => {};
 export const flattenDepth = () => {};
 export const fromPairs = () => {};
-export const head = () => {};
+export const head = (array?: unknown[]): unknown | undefined => {
+  if (!Array.isArray(array) || array.length === 0) {
+    return undefined;
+  }
+  return array[0];
+};
 export const indexOf = () => {};
 export const initial = () => {};
 export const intersection = () => {};
@@ -89,7 +146,14 @@ export const sortedLastIndexOf = () => {};
 export const sortedUniq = () => {};
 export const sortedUniqBy = () => {};
 export const tail = () => {};
-export const take = () => {};
+export const take = (array: unknown[], n: number = 1): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+  
+  const takeCount = Math.min(n, array.length);
+  return array.slice(0, takeCount);
+};
 export const takeRight = () => {};
 export const takeRightWhile = () => {};
 export const takeWhile = () => {};
