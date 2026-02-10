@@ -196,7 +196,20 @@ export const uniqBy = () => {};
 export const uniqWith = () => {};
 export const unzip = () => {};
 export const unzipWith = () => {};
-export const without = () => {};
+export const without = (array: unknown[], ...values: unknown[]): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+  
+  const result: unknown[] = [];
+  for (const item of array) {
+    if (!values.includes(item)) {
+      result.push(item);
+    }
+  }
+  
+  return result;
+};
 export const xor = () => {};
 export const xorBy = () => {};
 export const xorWith = () => {};
