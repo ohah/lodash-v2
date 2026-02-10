@@ -104,4 +104,24 @@ export const sampleSize = () => {};
 export const shuffle = () => {};
 export const size = () => {};
 export const some = () => {};
-export const sortBy = () => {};
+export const sortBy = (array: unknown[], fn: (value: unknown) => number | string): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+  
+  // Create array of [value, sortKey] pairs
+  const pairs = array.map(item => [item, fn(item)]);
+  
+  // Sort by the sortKey
+  pairs.sort((a, b) => {
+    const aKey = a[1];
+    const bKey = b[1];
+    
+    if (aKey < bKey) return -1;
+    if (aKey > bKey) return 1;
+    return 0;
+  });
+  
+  // Return only the values, sorted
+  return pairs.map(pair => pair[0]);
+};
