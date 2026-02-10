@@ -23,7 +23,12 @@ export const isBoolean = () => {};
 export const isBuffer = () => {};
 export const isDate = () => {};
 export const isElement = () => {};
-export const isEmpty = () => {};
+export const isEmpty = (value: unknown): boolean => {
+  if (value == null) return true;
+  if (Array.isArray(value) || typeof value === 'string') return (value as any).length === 0;
+  if (typeof value === 'object') return Object.keys(value as object).length === 0;
+  return false;
+};
 export const isEqual = () => {};
 export const isEqualWith = () => {};
 export const isError = () => {};
