@@ -1,24 +1,21 @@
 # 피드백 보고서 (AI 셀프 피드백용)
 
-- **생성 시각**: 2026-02-11T16:20:05.523Z
+- **생성 시각**: 2026-02-11T16:25:40.024Z
 - **기준**: lodash 4.17.23
 
 ---
 
 ## 1. 결과 동등성 실패 요약
 
-- **통과**: 85 / 183 케이스
-- **실패**: 98 케이스
+- **통과**: 88 / 183 케이스
+- **실패**: 95 케이스
 - **의미**: `actual (ours)`가 `expected (lodash)`와 동일해야 합니다. 수정 시 `packages/core/src/*.ts` 해당 함수를 lodash 동작에 맞게 구현하세요.
 
 ### 실패 목록
 
 | 함수 | 케이스 | args | expected (lodash) | actual (ours) |
 |------|--------|------|-------------------|---------------|
-| differenceBy | 기본 | `[[2.1,1.2],[2.3,3.4],null]` | `[1.2]` | `undefined` |
-| differenceWith | 기본 | `[[1,2],[2,3],null]` | `[1]` | `undefined` |
-| dropRightWhile | 기본 | `[[1,2,3,4],null]` | `[1,2]` | `undefined` |
-| dropWhile | 기본 | `[[1,2,3,4],null]` | `[3,4]` | `undefined` |
+| differenceWith | 기본 | `[[1,2],[2,3],null]` | `[1]` | `[]` |
 | fill | 기본 | `[[1,2,3],"a"]` | `["a","a","a"]` | `undefined` |
 | findIndex | 기본 | `[[1,2,3],null]` | `1` | `undefined` |
 | findLastIndex | 기본 | `[[1,2,2,3],null]` | `2` | `undefined` |
@@ -78,7 +75,7 @@
 | lte | lte | `[1,1]` | `true` | `undefined` |
 | isBoolean | true | `[true]` | `true` | `undefined` |
 | isBoolean | 숫자 | `[1]` | `false` | `undefined` |
-| isDate | Date | `["2026-02-11T16:20:05.518Z"]` | `true` | `undefined` |
+| isDate | Date | `["2026-02-11T16:25:40.019Z"]` | `true` | `undefined` |
 | isDate | 숫자 | `[1]` | `false` | `undefined` |
 | toInteger | 기본 | `["3.2"]` | `3` | `undefined` |
 | add | 기본 | `[6,4]` | `10` | `undefined` |

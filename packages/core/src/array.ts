@@ -98,18 +98,21 @@ export const differenceBy = (array: unknown[], ...values: unknown[]): unknown[] 
     return !valuesTransformed.includes(itemTransformed);
   });
 };
-export const differenceWith = (array: unknown[], ...values: unknown[]): unknown[] => {
+export const differenceWith = (array: unknown[], values: unknown[], comparator?: (a: unknown, b: unknown) => boolean): unknown[] => {
   if (!Array.isArray(array)) {
     return [];
   }
 
-  // values가 빈 경우 기본 값으로 초기화
-  if (values.length === 0) {
-    return [...array];
+  if (comparator === undefined || comparator === null) {
+    // If comparator is null or undefined, treat as equality comparison
+    const valuesSet = new Set(values);
+    return array.filter(item => !valuesSet.has(item));
   }
 
-  // values를 한 배열로 플렉토드하고 변환 알고리뷰 적용
-  const valuesArray: unknown[] = [];
+  return array.filter(item => {
+    return !values.some(value => comparator(item, value));
+  });
+};
   for (const value of values) {
     if (Array.isArray(value)) {
       valuesArray.push(...value);
@@ -168,7 +171,23 @@ export const dropRightWhile = (array: unknown[], predicate?: Function): unknown[
 
   return array.slice(0, index + 1);
 };
-export const dropWhile = () => {};
+export const dropWhile = (array: unknown[], predicate?: Function): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+
+  // Return the original array if predicate is null or undefined
+  if (predicate === undefined || predicate === null) {
+    return [...array];
+  }
+
+  let index = 0;
+  while (index < array.length && predicate(array[index], index, array)) {
+    index++;
+  }
+
+  return array.slice(index);
+};
 export const fill = () => {};
 export const findIndex = () => {};
 export const findLastIndex = () => {};
