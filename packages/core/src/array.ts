@@ -68,7 +68,21 @@ export const difference = (array: unknown[], ...values: unknown[]): unknown[] =>
   // Filter out elements that are in valuesArray
   return array.filter(item => !valuesArray.includes(item));
 };
-export const differenceBy = () => {};
+export const differenceBy = (array: unknown[], values: unknown[], iteratee?: (value: unknown) => unknown): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+
+  // 변환된 values 배열
+  const iterateeFn = iteratee || ((x: unknown) => x);
+  const valuesTransformed = values.map(iterateeFn);
+
+  // 필터링
+  return array.filter(item => {
+    const itemTransformed = iterateeFn(item);
+    return !valuesTransformed.includes(itemTransformed);
+  });
+};
 export const differenceWith = () => {};
 export const drop = (array: unknown[], n: number = 1): unknown[] => {
   if (!Array.isArray(array)) {
