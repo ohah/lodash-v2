@@ -188,7 +188,26 @@ export const dropWhile = (array: unknown[], predicate?: Function): unknown[] => 
 
   return array.slice(index);
 };
-export const fill = () => {};
+export const fill = (array: unknown[], value: unknown, start?: number, end?: number): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+
+  const length = array.length;
+  const startIndex = start === undefined ? 0 : Math.max(0, Math.min(start, length));
+  const endIndex = end === undefined ? length : Math.max(0, Math.min(end, length));
+
+  const result = [];
+  for (let i = 0; i < length; i++) {
+    if (i >= startIndex && i < endIndex) {
+      result.push(value);
+    } else {
+      result.push(array[i]);
+    }
+  }
+
+  return result;
+};
 export const findIndex = () => {};
 export const findLastIndex = () => {};
 export const flatten = (array: unknown[]): unknown[] => {
