@@ -2,8 +2,8 @@
 
 ## 현재 상태 요약
 
-- **동등성 테스트**: 기존 체크리스트 46개 함수는 구현 완료·통과. 미구현 함수에 대한 동등성 테스트·벤치마크를 추가해 둔 상태.
-- **체크리스트**: `docs/LODASH_IMPLEMENTATION_CHECKLIST.md`에 **1~173번**까지 번호 부여. 그중 **Phase 1 구현 여부 [x]인 것은 46개**, 나머지는 **미구현([ ])**.
+- **동등성 테스트**: 기존 체크리스트 46개 함수는 구현 완료·통과. 미구현 함수에 대한 동등성 테스트를 포함해 둔 상태(140 tests: 55 pass / 85 fail).
+- **체크리스트**: `docs/LODASH_IMPLEMENTATION_CHECKLIST.md` — Phase 1 표에서 **[ ]인 함수**를 위에서부터 순서대로 구현하면 됨.
 - **피드백**: `bun run generate-feedback` → `docs/feedback-report.md` 갱신.
 
 ---
@@ -31,7 +31,7 @@
 
 ## 참고 파일
 
-- `docs/LODASH_IMPLEMENTATION_CHECKLIST.md` — Phase 1/2 체크리스트(1~173번)
+- `docs/LODASH_IMPLEMENTATION_CHECKLIST.md` — Phase 1 체크리스트. [ ]인 항목 위에서부터 순서대로 구현.
 - `docs/feedback-report.md` — 동등성·벤치마크 피드백
 - `HEARTBEAT.md` — 매 턴 체크리스트, 재시도 규칙, 커밋 규칙
 - `test/src/__tests__/result-equivalence.test.ts` — 동등성 테스트(미구현 함수 포함)
