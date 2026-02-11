@@ -46,24 +46,24 @@
 | 13 | `uniq` | 중복 제거, 빈 배열 | [x] |
 | 14 | `without` | 기본 | [x] |
 | 15 | `fromPairs` | 기본 | [x] |
-| 16 | `differenceBy` | (추가 예정) | [ ] |
-| 17 | `differenceWith` | (추가 예정) | [ ] |
-| 18 | `dropRightWhile` | (추가 예정) | [ ] |
-| 19 | `dropWhile` | (추가 예정) | [ ] |
-| 20 | `fill` | (추가 예정) | [ ] |
-| 21 | `findIndex` | (추가 예정) | [ ] |
-| 22 | `findLastIndex` | (추가 예정) | [ ] |
-| 23 | `flattenDeep` | (추가 예정) | [ ] |
-| 24 | `flattenDepth` | (추가 예정) | [ ] |
-| 25 | `indexOf` | (추가 예정) | [ ] |
-| 26 | `intersection` | (추가 예정) | [ ] |
-| 27 | `intersectionBy` | (추가 예정) | [ ] |
-| 28 | `intersectionWith` | (추가 예정) | [ ] |
-| 29 | `join` | (추가 예정) | [ ] |
-| 30 | `lastIndexOf` | (추가 예정) | [ ] |
-| 31 | `nth` | (추가 예정) | [ ] |
-| 32 | `pull` | (추가 예정) | [ ] |
-| 33 | `pullAll` | (추가 예정) | [ ] |
+| 16 | `differenceBy` | (추가 예정) | [x] |
+| 17 | `differenceWith` | (추가 예정) | [x] |
+| 18 | `dropRightWhile` | (추가 예정) | [x] |
+| 19 | `dropWhile` | (추가 예정) | [x] |
+| 20 | `fill` | (추가 예정) | [x] |
+| 21 | `findIndex` | (추가 예정) | [x] |
+| 22 | `findLastIndex` | (추가 예정) | [x] |
+| 23 | `flattenDeep` | (추가 예정) | [x] |
+| 24 | `flattenDepth` | (추가 예정) | [x] |
+| 25 | `indexOf` | (추가 예정) | [x] |
+| 26 | `intersection` | (추가 예정) | [x] |
+| 27 | `intersectionBy` | (추가 예정) | [x] |
+| 28 | `intersectionWith` | (추가 예정) | [x] |
+| 29 | `join` | (추가 예정) | [x] |
+| 30 | `lastIndexOf` | (추가 예정) | [x] |
+| 31 | `nth` | (추가 예정) | [x] |
+| 32 | `pull` | (추가 예정) | [x] |
+| 33 | `pullAll` | (추가 예정) | [x] |
 | 34 | `pullAllBy` | (추가 예정) | [ ] |
 | 35 | `pullAllWith` | (추가 예정) | [ ] |
 | 36 | `pullAt` | (추가 예정) | [ ] |
