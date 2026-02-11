@@ -2,7 +2,7 @@
  * 함수 실행 결과 동등성 테스트
  *
  * 우리 구현(@lodash-v2/core)이 lodash와 **동일한 입력에 대해 동일한 결과**를 내는지 검증합니다.
- * - 각 테스트: runResultTest(ours, lodashFn, cases) 후 expect(result.passed).toBe(true)
+ * - 각 테스트: runResultTest(ours, lodashFn, cases) 후 assertResultPassed(result) — 실패 시 케이스별 expected/actual 출력
  * - 현재는 core가 플레이스홀더(() => {})이므로 **전부 실패**합니다.
  * - 구현을 채우면 lodash와 결과가 일치할 때 테스트가 통과합니다.
  */
@@ -57,7 +57,7 @@ import {
   range,
 } from '@lodash-v2/core';
 import * as core from '@lodash-v2/core';
-import { runResultTest } from '../result';
+import { assertResultPassed, runResultTest } from '../result';
 import { describe, expect, test } from 'bun:test';
 
 describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상', () => {
@@ -72,7 +72,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: 'size 1', args: [[1, 2, 3], 1] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -82,7 +82,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         { name: 'falsy 제거', args: [[0, 1, false, 2, '', 3, null, undefined, NaN]] },
         { name: '빈 배열', args: [[]] },
       ]);
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -96,7 +96,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[], 1, 2] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -116,7 +116,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '중복 제외', args: [[1, 2, 2, 3], [2]] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -130,7 +130,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: 'n=2', args: [[1, 2, 3], 2] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('dropRight: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -141,7 +141,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: 'n=2', args: [[1, 2, 3], 2] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('take: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -152,7 +152,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: 'n=0', args: [[1, 2, 3], 0] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -163,7 +163,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.flatten,
         [{ name: '1단계', args: [[1, [2, [3, [4]], 5]]] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('head: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -174,7 +174,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[]] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('last: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -185,7 +185,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[]] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('initial: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -193,7 +193,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.initial,
         [{ name: '일반', args: [[1, 2, 3]] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('tail: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -201,7 +201,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.tail,
         [{ name: '일반', args: [[1, 2, 3]] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -215,7 +215,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[]] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('without: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -224,7 +224,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.without,
         [{ name: '기본', args: [[2, 1, 2, 3], 1, 2] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('fromPairs: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -243,7 +243,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -258,7 +258,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[], (x: number) => x] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('filter: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -270,7 +270,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[], (x: number) => x > 0] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('reduce: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -286,7 +286,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[], (acc: number, n: number) => acc + n, 10] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -302,7 +302,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.find,
         [{ name: 'a===2', args: [arr, (o: { a: number }) => o.a === 2] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('keyBy: lodash와 동일한 결과', () => {
       const arr = [
@@ -315,7 +315,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.keyBy,
         [{ name: 'id 기준', args: [arr, 'id'] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('groupBy: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -324,7 +324,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.groupBy,
         [{ name: '짝홀', args: [[1, 2, 3, 4], (n: number) => (n % 2 === 0 ? 'even' : 'odd')] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('sortBy: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -333,7 +333,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.sortBy,
         [{ name: '음수로 역순', args: [[1, 2, 3], (n: number) => -n] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('countBy: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -342,7 +342,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.countBy,
         [{ name: '길이', args: [['a', 'bb', 'c'], (s: string) => s.length.toString()] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -357,7 +357,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '하나 거짓', args: [[2, 3, 6], (n: number) => n % 2 === 0] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('some: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -369,7 +369,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '전부 거짓', args: [[1, 3, 5], (n: number) => n % 2 === 0] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('includes: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -380,7 +380,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '없음', args: [[1, 2, 3], 4] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -395,7 +395,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: 'null', args: [null] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('isNumber: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -407,7 +407,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: 'NaN', args: [NaN] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('isEmpty: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -419,7 +419,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '요소 있음', args: [[1, 2]] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('toArray: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -430,7 +430,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '문자열', args: ['abc'] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -442,7 +442,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.cloneDeep,
         [{ name: '중첩 객체', args: [obj] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -452,7 +452,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         { name: '기본', args: [[1, 2, 3, 4]] },
         { name: '빈 배열', args: [[]] },
       ]);
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('max: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -463,7 +463,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[]] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('min: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -474,14 +474,14 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '빈 배열', args: [[]] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('mean: lodash와 동일한 결과', () => {
       const result = runResultTest((a: number[]) => (mean as unknown as (a: number[]) => number)(a), _.mean, [
         { name: '기본', args: [[4, 2, 8, 6]] },
         { name: '빈 배열', args: [[]] },
       ]);
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -497,7 +497,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '범위 위', args: [10, 0, 5] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('inRange: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -510,7 +510,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '2인자', args: [2, 5] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -526,7 +526,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '기본값', args: [obj, 'a.x', 'default'] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('pick: lodash와 동일한 결과', () => {
       const obj = { a: 1, b: 2, c: 3 };
@@ -536,7 +536,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.pick,
         [{ name: 'a,c', args: [obj, ['a', 'c']] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('omit: lodash와 동일한 결과', () => {
       const obj = { a: 1, b: 2, c: 3 };
@@ -546,7 +546,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.omit,
         [{ name: 'b 제외', args: [obj, ['b']] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('keys: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -554,7 +554,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.keys,
         [{ name: '기본', args: [{ a: 1, b: 2 }] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('values: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -562,7 +562,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         _.values,
         [{ name: '기본', args: [{ a: 1, b: 2 }] }]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -576,7 +576,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '하이픈', args: ['foo-bar'] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('trim: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -587,7 +587,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: 'chars', args: ['_-abc-_', '_-'] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -601,7 +601,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: '0', args: [0] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
     test('range: lodash와 동일한 결과', () => {
       const result = runResultTest(
@@ -614,7 +614,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           { name: 'step 2', args: [0, 6, 2] },
         ]
       );
-      expect(result.passed).toBe(true);
+      assertResultPassed(result);
     });
   });
 
@@ -627,7 +627,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.differenceBy,
           [{ name: '기본', args: [[2.1, 1.2], [2.3, 3.4], Math.floor] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('differenceWith', () => {
         const result = runResultTest(
@@ -636,7 +636,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.differenceWith,
           [{ name: '기본', args: [[1, 2], [2, 3], (a, b) => a === b] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('dropRightWhile', () => {
         const result = runResultTest(
@@ -645,7 +645,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.dropRightWhile,
           [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n > 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('dropWhile', () => {
         const result = runResultTest(
@@ -654,7 +654,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.dropWhile,
           [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n < 3] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('fill', () => {
         const result = runResultTest(
@@ -663,7 +663,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (arr: unknown[], v: unknown, s?: number, e?: number) => _.fill([...arr], v, s, e),
           [{ name: '기본', args: [[1, 2, 3], 'a'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('findIndex', () => {
         const result = runResultTest(
@@ -672,7 +672,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.findIndex,
           [{ name: '기본', args: [[1, 2, 3], (x: number) => x === 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('findLastIndex', () => {
         const result = runResultTest(
@@ -681,7 +681,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.findLastIndex,
           [{ name: '기본', args: [[1, 2, 2, 3], (x: number) => x === 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('flattenDeep', () => {
         const result = runResultTest(
@@ -689,7 +689,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.flattenDeep,
           [{ name: '기본', args: [[[1, [2, [3, [4]]]]]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('flattenDepth', () => {
         const result = runResultTest(
@@ -697,7 +697,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.flattenDepth,
           [{ name: 'depth 2', args: [[[1, [2, [3, [4]]]]], 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('indexOf', () => {
         const result = runResultTest(
@@ -705,7 +705,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.indexOf,
           [{ name: '기본', args: [[1, 2, 1, 2], 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('intersection', () => {
         const result = runResultTest(
@@ -713,7 +713,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.intersection,
           [{ name: '기본', args: [[2, 1], [2, 3]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('intersectionBy', () => {
         const result = runResultTest(
@@ -722,7 +722,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.intersectionBy,
           [{ name: '기본', args: [[2.1, 1.2], [2.3, 3.4], Math.floor] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('intersectionWith', () => {
         const result = runResultTest(
@@ -731,7 +731,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.intersectionWith,
           [{ name: '기본', args: [[1, 2], [2, 3], (a, b) => a === b] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('join', () => {
         const result = runResultTest(
@@ -739,7 +739,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.join,
           [{ name: '기본', args: [['a', 'b', 'c'], '~'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('lastIndexOf', () => {
         const result = runResultTest(
@@ -747,7 +747,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.lastIndexOf,
           [{ name: '기본', args: [[1, 2, 1, 2], 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('nth', () => {
         const result = runResultTest(
@@ -755,7 +755,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.nth,
           [{ name: '기본', args: [[1, 2, 3], 1] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('pull', () => {
         const result = runResultTest(
@@ -763,7 +763,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (arr: number[], ...v: number[]) => _.pull([...arr], ...v),
           [{ name: '기본', args: [[1, 2, 3, 1, 2], 2, 1] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('pullAll', () => {
         const result = runResultTest(
@@ -771,7 +771,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (arr: number[], v: number[]) => _.pullAll([...arr], v),
           [{ name: '기본', args: [[1, 2, 3, 1, 2], [2, 1]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('pullAt', () => {
         const result = runResultTest(
@@ -779,7 +779,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (arr: number[], i: number[]) => _.pullAt([...arr], i),
           [{ name: '기본', args: [[1, 2, 3, 4], [1, 3]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('remove', () => {
         const result = runResultTest(
@@ -787,7 +787,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (arr: number[], fn: (x: number) => boolean) => _.remove([...arr], fn),
           [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('reverse', () => {
         const result = runResultTest(
@@ -795,7 +795,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (arr: number[]) => _.reverse([...arr]),
           [{ name: '기본', args: [[1, 2, 3]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('slice', () => {
         const result = runResultTest(
@@ -803,7 +803,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.slice,
           [{ name: '기본', args: [[1, 2, 3, 4], 1, 3] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('sortedIndex', () => {
         const result = runResultTest(
@@ -811,7 +811,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.sortedIndex,
           [{ name: '기본', args: [[30, 50], 40] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('sortedIndexBy', () => {
         const result = runResultTest(
@@ -820,7 +820,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.sortedIndexBy,
           [{ name: '기본', args: [[{ age: 30 }, { age: 50 }], 40, (o) => o.age] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('takeRight', () => {
         const result = runResultTest(
@@ -828,7 +828,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.takeRight,
           [{ name: '기본', args: [[1, 2, 3], 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('takeRightWhile', () => {
         const result = runResultTest(
@@ -837,7 +837,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.takeRightWhile,
           [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n > 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('takeWhile', () => {
         const result = runResultTest(
@@ -846,7 +846,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.takeWhile,
           [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n < 3] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('union', () => {
         const result = runResultTest(
@@ -854,7 +854,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.union,
           [{ name: '기본', args: [[2], [1, 2]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('unionBy', () => {
         const result = runResultTest(
@@ -863,7 +863,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.unionBy,
           [{ name: '기본', args: [[2.1], [1.2, 2.3], Math.floor] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('uniqBy', () => {
         const result = runResultTest(
@@ -871,7 +871,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.uniqBy,
           [{ name: '기본', args: [[2.1, 1.2, 2.3], Math.floor] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('unzip', () => {
         const result = runResultTest(
@@ -879,7 +879,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.unzip,
           [{ name: '기본', args: [[[1, 'a'], [2, 'b']]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('xor', () => {
         const result = runResultTest(
@@ -887,7 +887,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.xor,
           [{ name: '기본', args: [[2, 1], [2, 3]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('zip', () => {
         const result = runResultTest(
@@ -895,7 +895,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.zip,
           [{ name: '기본', args: [[1, 2], [10, 20], [100, 200]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('zipObject', () => {
         const result = runResultTest(
@@ -903,7 +903,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.zipObject,
           [{ name: '기본', args: [['a', 'b'], [1, 2]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('zipWith', () => {
         const result = runResultTest(
@@ -912,7 +912,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.zipWith,
           [{ name: '기본', args: [[1, 2], [10, 20], (a, b) => a + b] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
     });
 
@@ -924,7 +924,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.findLast,
           [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('flatMap', () => {
         const result = runResultTest(
@@ -933,7 +933,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.flatMap,
           [{ name: '기본', args: [[1, 2], (n: number) => [n, n]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('flatMapDeep', () => {
         const result = runResultTest(
@@ -942,7 +942,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.flatMapDeep,
           [{ name: '기본', args: [[1, 2], (n: number) => [[[n, n]]]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('flatMapDepth', () => {
         const result = runResultTest(
@@ -951,7 +951,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.flatMapDepth,
           [{ name: '기본', args: [[1, 2], (n: number) => [[[n, n]]], 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('forEach', () => {
         const result = runResultTest(
@@ -959,7 +959,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (a: number[]) => _.forEach(a, () => {}),
           [{ name: '기본', args: [[1, 2, 3]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('orderBy', () => {
         const result = runResultTest(
@@ -968,7 +968,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.orderBy,
           [{ name: '기본', args: [[{ a: 'b', b: 2 }, { a: 'a', b: 1 }], ['a'], ['asc']] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('partition', () => {
         const result = runResultTest(
@@ -977,7 +977,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.partition,
           [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('reduceRight', () => {
         const result = runResultTest(
@@ -986,7 +986,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.reduceRight,
           [{ name: '기본', args: [[1, 2, 3], (acc: number, x: number) => acc + x, 0] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('reject', () => {
         const result = runResultTest(
@@ -995,7 +995,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.reject,
           [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('size', () => {
         const result = runResultTest(
@@ -1006,7 +1006,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
             { name: '객체', args: [{ a: 1, b: 2 }] },
           ]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('sample', () => {
         const arr = [1, 2, 3];
@@ -1033,7 +1033,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.castArray,
           [{ name: '숫자', args: [1] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('clone', () => {
         const result = runResultTest(
@@ -1041,7 +1041,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.clone,
           [{ name: '객체', args: [{ a: 1 }] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('eq', () => {
         const result = runResultTest(
@@ -1052,7 +1052,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
             { name: '다름', args: [1, 2] },
           ]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('isEqual', () => {
         const result = runResultTest(
@@ -1060,7 +1060,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.isEqual,
           [{ name: '객체', args: [{ a: 1 }, { a: 1 }] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('isNil', () => {
         const result = runResultTest(
@@ -1072,7 +1072,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
             { name: '값', args: [1] },
           ]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('isString', () => {
         const result = runResultTest(
@@ -1083,7 +1083,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
             { name: '숫자', args: [1] },
           ]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('toNumber', () => {
         const result = runResultTest(
@@ -1091,13 +1091,13 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.toNumber,
           [{ name: '기본', args: ['3.2'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('gt, gte, lt, lte', () => {
-        expect(runResultTest((a: number, b: number) => (core.gt as unknown as (a: number, b: number) => boolean)(a, b), _.gt, [{ name: 'gt', args: [3, 1] }]).passed).toBe(true);
-        expect(runResultTest((a: number, b: number) => (core.gte as unknown as (a: number, b: number) => boolean)(a, b), _.gte, [{ name: 'gte', args: [1, 1] }]).passed).toBe(true);
-        expect(runResultTest((a: number, b: number) => (core.lt as unknown as (a: number, b: number) => boolean)(a, b), _.lt, [{ name: 'lt', args: [1, 3] }]).passed).toBe(true);
-        expect(runResultTest((a: number, b: number) => (core.lte as unknown as (a: number, b: number) => boolean)(a, b), _.lte, [{ name: 'lte', args: [1, 1] }]).passed).toBe(true);
+        assertResultPassed(runResultTest((a: number, b: number) => (core.gt as unknown as (a: number, b: number) => boolean)(a, b), _.gt, [{ name: 'gt', args: [3, 1] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.gte as unknown as (a: number, b: number) => boolean)(a, b), _.gte, [{ name: 'gte', args: [1, 1] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.lt as unknown as (a: number, b: number) => boolean)(a, b), _.lt, [{ name: 'lt', args: [1, 3] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.lte as unknown as (a: number, b: number) => boolean)(a, b), _.lte, [{ name: 'lte', args: [1, 1] }]));
       });
       test('isBoolean', () => {
         const result = runResultTest(
@@ -1105,7 +1105,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.isBoolean,
           [{ name: 'true', args: [true] }, { name: '숫자', args: [1] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('isDate', () => {
         const result = runResultTest(
@@ -1113,7 +1113,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.isDate,
           [{ name: 'Date', args: [new Date()] }, { name: '숫자', args: [1] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('toInteger', () => {
         const result = runResultTest(
@@ -1121,7 +1121,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.toInteger,
           [{ name: '기본', args: ['3.2'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
     });
 
@@ -1132,24 +1132,24 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.add,
           [{ name: '기본', args: [6, 4] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('ceil, floor, round', () => {
-        expect(runResultTest((n: number, p?: number) => (core.ceil as unknown as (n: number, p?: number) => number)(n, p), _.ceil, [{ name: 'ceil', args: [4.006, 2] }]).passed).toBe(true);
-        expect(runResultTest((n: number, p?: number) => (core.floor as unknown as (n: number, p?: number) => number)(n, p), _.floor, [{ name: 'floor', args: [4.006, 2] }]).passed).toBe(true);
-        expect(runResultTest((n: number, p?: number) => (core.round as unknown as (n: number, p?: number) => number)(n, p), _.round, [{ name: 'round', args: [4.006, 2] }]).passed).toBe(true);
+        assertResultPassed(runResultTest((n: number, p?: number) => (core.ceil as unknown as (n: number, p?: number) => number)(n, p), _.ceil, [{ name: 'ceil', args: [4.006, 2] }]));
+        assertResultPassed(runResultTest((n: number, p?: number) => (core.floor as unknown as (n: number, p?: number) => number)(n, p), _.floor, [{ name: 'floor', args: [4.006, 2] }]));
+        assertResultPassed(runResultTest((n: number, p?: number) => (core.round as unknown as (n: number, p?: number) => number)(n, p), _.round, [{ name: 'round', args: [4.006, 2] }]));
       });
       test('divide, multiply, subtract', () => {
-        expect(runResultTest((a: number, b: number) => (core.divide as unknown as (a: number, b: number) => number)(a, b), _.divide, [{ name: 'divide', args: [6, 4] }]).passed).toBe(true);
-        expect(runResultTest((a: number, b: number) => (core.multiply as unknown as (a: number, b: number) => number)(a, b), _.multiply, [{ name: 'multiply', args: [6, 4] }]).passed).toBe(true);
-        expect(runResultTest((a: number, b: number) => (core.subtract as unknown as (a: number, b: number) => number)(a, b), _.subtract, [{ name: 'subtract', args: [6, 4] }]).passed).toBe(true);
+        assertResultPassed(runResultTest((a: number, b: number) => (core.divide as unknown as (a: number, b: number) => number)(a, b), _.divide, [{ name: 'divide', args: [6, 4] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.multiply as unknown as (a: number, b: number) => number)(a, b), _.multiply, [{ name: 'multiply', args: [6, 4] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.subtract as unknown as (a: number, b: number) => number)(a, b), _.subtract, [{ name: 'subtract', args: [6, 4] }]));
       });
       test('maxBy, meanBy, minBy, sumBy', () => {
         const arr = [{ n: 1 }, { n: 2 }, { n: 3 }];
-        expect(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.maxBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => { n: number })(a, fn), _.maxBy, [{ name: 'maxBy', args: [arr, (x) => x.n] }]).passed).toBe(true);
-        expect(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.meanBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => number)(a, fn), _.meanBy, [{ name: 'meanBy', args: [arr, (x) => x.n] }]).passed).toBe(true);
-        expect(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.minBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => { n: number })(a, fn), _.minBy, [{ name: 'minBy', args: [arr, (x) => x.n] }]).passed).toBe(true);
-        expect(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.sumBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => number)(a, fn), _.sumBy, [{ name: 'sumBy', args: [arr, (x) => x.n] }]).passed).toBe(true);
+        assertResultPassed(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.maxBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => { n: number })(a, fn), _.maxBy, [{ name: 'maxBy', args: [arr, (x) => x.n] }]));
+        assertResultPassed(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.meanBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => number)(a, fn), _.meanBy, [{ name: 'meanBy', args: [arr, (x) => x.n] }]));
+        assertResultPassed(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.minBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => { n: number })(a, fn), _.minBy, [{ name: 'minBy', args: [arr, (x) => x.n] }]));
+        assertResultPassed(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.sumBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => number)(a, fn), _.sumBy, [{ name: 'sumBy', args: [arr, (x) => x.n] }]));
       });
     });
 
@@ -1168,7 +1168,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (a: Record<string, number>, b: Record<string, number>) => (_.assign as any)({}, a, b),
           [{ name: '기본', args: [{ a: 1 }, { b: 2 }] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('defaults', () => {
         const result = runResultTest(
@@ -1176,7 +1176,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (a: Record<string, number>, b: Record<string, number>) => (_.defaults as any)({}, a, b),
           [{ name: '기본', args: [{ a: 1 }, { a: 2, b: 2 }] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('has', () => {
         const result = runResultTest(
@@ -1184,7 +1184,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.has,
           [{ name: '기본', args: [{ a: 1 }, 'a'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('invert', () => {
         const result = runResultTest(
@@ -1192,7 +1192,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.invert,
           [{ name: '기본', args: [{ a: '1', b: '2' }] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('merge', () => {
         const result = runResultTest(
@@ -1200,7 +1200,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (a: Record<string, unknown>, b: Record<string, unknown>) => (_.merge as any)({}, a, b),
           [{ name: '기본', args: [{ a: 1 }, { b: 2 }] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('set', () => {
         const result = runResultTest(
@@ -1208,7 +1208,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           (o: Record<string, unknown>, path: string, v: unknown) => _.set({ ...o }, path, v) as Record<string, unknown>,
           [{ name: '기본', args: [{}, 'a.b', 1] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('toPairs', () => {
         const result = runResultTest(
@@ -1216,7 +1216,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.toPairs,
           [{ name: '기본', args: [{ a: 1, b: 2 }] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
     });
 
@@ -1227,7 +1227,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.capitalize,
           [{ name: '기본', args: ['FRED'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('kebabCase', () => {
         const result = runResultTest(
@@ -1235,7 +1235,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.kebabCase,
           [{ name: '기본', args: ['Foo Bar'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('pad', () => {
         const result = runResultTest(
@@ -1243,7 +1243,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.pad,
           [{ name: '기본', args: ['abc', 8] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('repeat', () => {
         const result = runResultTest(
@@ -1251,7 +1251,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.repeat,
           [{ name: '기본', args: ['*', 3] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('snakeCase', () => {
         const result = runResultTest(
@@ -1259,11 +1259,11 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.snakeCase,
           [{ name: '기본', args: ['Foo Bar'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('toLower, toUpper', () => {
-        expect(runResultTest((s: string) => (core.toLower as unknown as (s: string) => string)(s), _.toLower, [{ name: 'toLower', args: ['--Foo-Bar--'] }]).passed).toBe(true);
-        expect(runResultTest((s: string) => (core.toUpper as unknown as (s: string) => string)(s), _.toUpper, [{ name: 'toUpper', args: ['--foo-bar--'] }]).passed).toBe(true);
+        assertResultPassed(runResultTest((s: string) => (core.toLower as unknown as (s: string) => string)(s), _.toLower, [{ name: 'toLower', args: ['--Foo-Bar--'] }]));
+        assertResultPassed(runResultTest((s: string) => (core.toUpper as unknown as (s: string) => string)(s), _.toUpper, [{ name: 'toUpper', args: ['--foo-bar--'] }]));
       });
       test('trimEnd', () => {
         const result = runResultTest(
@@ -1271,7 +1271,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.trimEnd,
           [{ name: '기본', args: ['  abc  '] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('words', () => {
         const result = runResultTest(
@@ -1279,7 +1279,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.words,
           [{ name: '기본', args: ['fred, barney, & pebbles'] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
     });
 
@@ -1290,7 +1290,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.once,
           [{ name: '기본', args: [() => 1] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
     });
 
@@ -1309,7 +1309,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.chain,
           [{ name: '기본', args: [[1, 2, 3]] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
     });
 
@@ -1323,7 +1323,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
             { name: 'null', args: [null, 10] },
           ]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('noop', () => {
         expect((core.noop as unknown as () => undefined)()).toBe(undefined);
@@ -1334,7 +1334,7 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
           _.times,
           [{ name: '기본', args: [3, (i: number) => i * 2] }]
         );
-        expect(result.passed).toBe(true);
+        assertResultPassed(result);
       });
       test('uniqueId', () => {
         const a = (core.uniqueId as unknown as (prefix?: string) => string)();

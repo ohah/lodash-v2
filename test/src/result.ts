@@ -63,6 +63,26 @@ export function runResultTest<TArgs extends unknown[], TResult>(
   };
 }
 
+/** 실패한 케이스만 모아서 읽기 쉬운 문자열로 반환 (에러 메시지·로그용) */
+export function formatFailureDetails(result: ResultTestResult<unknown>): string {
+  if (result.passed) return '';
+  const failed = result.details.filter((d) => !d.passed);
+  return failed
+    .map(
+      (d) =>
+        `  [${d.name}] args: ${JSON.stringify(d.args)}\n    expected: ${JSON.stringify(d.expected)}\n    actual:   ${JSON.stringify(d.actual)}`
+    )
+    .join('\n');
+}
+
+/** result.passed가 false면 실패 상세를 담은 Error를 던짐. 테스트에서 사용 시 실패 원인을 바로 확인 가능 */
+export function assertResultPassed<T>(result: ResultTestResult<T>): asserts result is ResultTestResult<T> & { passed: true } {
+  if (!result.passed) {
+    const msg = `동등성 실패 (${result.failedCount}/${result.total}):\n${formatFailureDetails(result as ResultTestResult<unknown>)}`;
+    throw new Error(msg);
+  }
+}
+
 export interface ResultTestThreeResult<TResult> {
   passed: boolean;
   total: number;
@@ -132,14 +152,20 @@ export function runResultTestThree<TArgs extends unknown[], TResult>(
   };
 }
 
-/** 간단한 deep equal (JSON 직렬화 가능한 값용) */
+/** deep equal: NaN, ±0, Date, 객체 키 순서 무관 비교 */
 function deepEqual(a: unknown, b: unknown): boolean {
   if (Object.is(a, b)) return true;
+  if (typeof a === 'number' && typeof b === 'number' && Number.isNaN(a) && Number.isNaN(b)) return true;
   if (a == null || b == null) return false;
   if (typeof a !== 'object' || typeof b !== 'object') return false;
-  try {
-    return JSON.stringify(a) === JSON.stringify(b);
-  } catch {
-    return false;
+  if (a instanceof Date && b instanceof Date) return a.getTime() === b.getTime();
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+    return a.every((v, i) => deepEqual(v, b[i]));
   }
+  if (Array.isArray(a) !== Array.isArray(b)) return false;
+  const keysA = Object.keys(a as object).sort();
+  const keysB = Object.keys(b as object).sort();
+  if (keysA.length !== keysB.length || keysA.some((k, i) => k !== keysB[i])) return false;
+  return keysA.every((k) => deepEqual((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k]));
 }

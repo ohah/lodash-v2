@@ -16,8 +16,9 @@ const data = collectFeedback(iterations);
 const outDir = join(import.meta.dir, '../../docs');
 const outPath = join(outDir, 'feedback-report.md');
 
-function escapeTableCell(s: string): string {
-  return s.replace(/\n/g, ' ').replace(/\|/g, '\\|');
+function escapeTableCell(s: string | undefined): string {
+  if (s == null) return '';
+  return String(s).replace(/\n/g, ' ').replace(/\|/g, '\\|');
 }
 
 const resultTableRows = data.resultFailures
