@@ -56,6 +56,7 @@ import {
   identity,
   range,
 } from '@lodash-v2/core';
+import * as core from '@lodash-v2/core';
 import { assertResultPassed, runResultTest } from '../result';
 import { describe, expect, test } from 'bun:test';
 
@@ -614,6 +615,733 @@ describe('결과 동등성 (ours === lodash) — 구현 전까지 실패 예상'
         ]
       );
       assertResultPassed(result);
+    });
+  });
+
+  describe('Phase 1 미구현 함수 (동등성 — 구현 시 통과 예상)', () => {
+    describe('Array', () => {
+      test('differenceBy', () => {
+        const result = runResultTest(
+          (a: number[], b: number[], fn?: (x: number) => number) =>
+            (core.differenceBy as unknown as (a: number[], b: number[], fn?: (x: number) => number) => number[])(a, b, fn),
+          _.differenceBy,
+          [{ name: '기본', args: [[2.1, 1.2], [2.3, 3.4], Math.floor] }]
+        );
+        assertResultPassed(result);
+      });
+      test('differenceWith', () => {
+        const result = runResultTest(
+          (a: number[], b: number[], fn: (x: number, y: number) => boolean) =>
+            (core.differenceWith as unknown as (a: number[], b: number[], fn: (x: number, y: number) => boolean) => number[])(a, b, fn),
+          _.differenceWith,
+          [{ name: '기본', args: [[1, 2], [2, 3], (a, b) => a === b] }]
+        );
+        assertResultPassed(result);
+      });
+      test('dropRightWhile', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.dropRightWhile as unknown as (a: number[], fn: (x: number) => boolean) => number[])(a, fn),
+          _.dropRightWhile,
+          [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n > 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('dropWhile', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.dropWhile as unknown as (a: number[], fn: (x: number) => boolean) => number[])(a, fn),
+          _.dropWhile,
+          [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n < 3] }]
+        );
+        assertResultPassed(result);
+      });
+      test('fill', () => {
+        const result = runResultTest(
+          (a: unknown[], v: unknown, s?: number, e?: number) =>
+            (core.fill as unknown as (a: unknown[], v: unknown, s?: number, e?: number) => unknown[])([...a], v, s, e),
+          (arr: unknown[], v: unknown, s?: number, e?: number) => _.fill([...arr], v, s, e),
+          [{ name: '기본', args: [[1, 2, 3], 'a'] }]
+        );
+        assertResultPassed(result);
+      });
+      test('findIndex', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.findIndex as unknown as (a: number[], fn: (x: number) => boolean) => number)(a, fn),
+          _.findIndex,
+          [{ name: '기본', args: [[1, 2, 3], (x: number) => x === 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('findLastIndex', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.findLastIndex as unknown as (a: number[], fn: (x: number) => boolean) => number)(a, fn),
+          _.findLastIndex,
+          [{ name: '기본', args: [[1, 2, 2, 3], (x: number) => x === 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('flattenDeep', () => {
+        const result = runResultTest(
+          (a: unknown[]) => (core.flattenDeep as unknown as (a: unknown[]) => unknown[])(a),
+          _.flattenDeep,
+          [{ name: '기본', args: [[[1, [2, [3, [4]]]]]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('flattenDepth', () => {
+        const result = runResultTest(
+          (a: unknown[], d: number) => (core.flattenDepth as unknown as (a: unknown[], d: number) => unknown[])(a, d),
+          _.flattenDepth,
+          [{ name: 'depth 2', args: [[[1, [2, [3, [4]]]]], 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('indexOf', () => {
+        const result = runResultTest(
+          (a: number[], v: number, from?: number) => (core.indexOf as unknown as (a: number[], v: number, from?: number) => number)(a, v, from),
+          _.indexOf,
+          [{ name: '기본', args: [[1, 2, 1, 2], 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('intersection', () => {
+        const result = runResultTest(
+          (a: number[], b: number[]) => (core.intersection as unknown as (a: number[], b: number[]) => number[])(a, b),
+          _.intersection,
+          [{ name: '기본', args: [[2, 1], [2, 3]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('intersectionBy', () => {
+        const result = runResultTest(
+          (a: number[], b: number[], fn?: (x: number) => number) =>
+            (core.intersectionBy as unknown as (a: number[], b: number[], fn?: (x: number) => number) => number[])(a, b, fn),
+          _.intersectionBy,
+          [{ name: '기본', args: [[2.1, 1.2], [2.3, 3.4], Math.floor] }]
+        );
+        assertResultPassed(result);
+      });
+      test('intersectionWith', () => {
+        const result = runResultTest(
+          (a: number[], b: number[], fn: (x: number, y: number) => boolean) =>
+            (core.intersectionWith as unknown as (a: number[], b: number[], fn: (x: number, y: number) => boolean) => number[])(a, b, fn),
+          _.intersectionWith,
+          [{ name: '기본', args: [[1, 2], [2, 3], (a, b) => a === b] }]
+        );
+        assertResultPassed(result);
+      });
+      test('join', () => {
+        const result = runResultTest(
+          (a: string[], sep?: string) => (core.join as unknown as (a: string[], sep?: string) => string)(a, sep),
+          _.join,
+          [{ name: '기본', args: [['a', 'b', 'c'], '~'] }]
+        );
+        assertResultPassed(result);
+      });
+      test('lastIndexOf', () => {
+        const result = runResultTest(
+          (a: number[], v: number, from?: number) => (core.lastIndexOf as unknown as (a: number[], v: number, from?: number) => number)(a, v, from),
+          _.lastIndexOf,
+          [{ name: '기본', args: [[1, 2, 1, 2], 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('nth', () => {
+        const result = runResultTest(
+          (a: number[], n: number) => (core.nth as unknown as (a: number[], n: number) => number | undefined)(a, n),
+          _.nth,
+          [{ name: '기본', args: [[1, 2, 3], 1] }]
+        );
+        assertResultPassed(result);
+      });
+      test('pull', () => {
+        const result = runResultTest(
+          (a: number[], ...v: number[]) => (core.pull as unknown as (a: number[], ...v: number[]) => number[])([...a], ...v),
+          (arr: number[], ...v: number[]) => _.pull([...arr], ...v),
+          [{ name: '기본', args: [[1, 2, 3, 1, 2], 2, 1] }]
+        );
+        assertResultPassed(result);
+      });
+      test('pullAll', () => {
+        const result = runResultTest(
+          (a: number[], v: number[]) => (core.pullAll as unknown as (a: number[], v: number[]) => number[])([...a], v),
+          (arr: number[], v: number[]) => _.pullAll([...arr], v),
+          [{ name: '기본', args: [[1, 2, 3, 1, 2], [2, 1]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('pullAt', () => {
+        const result = runResultTest(
+          (a: number[], i: number[]) => (core.pullAt as unknown as (a: number[], i: number[]) => number[])([...a], i),
+          (arr: number[], i: number[]) => _.pullAt([...arr], i),
+          [{ name: '기본', args: [[1, 2, 3, 4], [1, 3]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('remove', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) => (core.remove as unknown as (a: number[], fn: (x: number) => boolean) => number[])([...a], fn),
+          (arr: number[], fn: (x: number) => boolean) => _.remove([...arr], fn),
+          [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }]
+        );
+        assertResultPassed(result);
+      });
+      test('reverse', () => {
+        const result = runResultTest(
+          (a: number[]) => (core.reverse as unknown as (a: number[]) => number[])([...a]),
+          (arr: number[]) => _.reverse([...arr]),
+          [{ name: '기본', args: [[1, 2, 3]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('slice', () => {
+        const result = runResultTest(
+          (a: number[], s?: number, e?: number) => (core.slice as unknown as (a: number[], s?: number, e?: number) => number[])(a, s, e),
+          _.slice,
+          [{ name: '기본', args: [[1, 2, 3, 4], 1, 3] }]
+        );
+        assertResultPassed(result);
+      });
+      test('sortedIndex', () => {
+        const result = runResultTest(
+          (a: number[], v: number) => (core.sortedIndex as unknown as (a: number[], v: number) => number)(a, v),
+          _.sortedIndex,
+          [{ name: '기본', args: [[30, 50], 40] }]
+        );
+        assertResultPassed(result);
+      });
+      test('sortedIndexBy', () => {
+        const result = runResultTest(
+          (a: { age: number }[], v: number, fn: (x: { age: number }) => number) =>
+            (core.sortedIndexBy as unknown as (a: { age: number }[], v: number, fn: (x: { age: number }) => number) => number)(a, v, fn),
+          _.sortedIndexBy,
+          [{ name: '기본', args: [[{ age: 30 }, { age: 50 }], 40, (o) => o.age] }]
+        );
+        assertResultPassed(result);
+      });
+      test('takeRight', () => {
+        const result = runResultTest(
+          (a: number[], n?: number) => (core.takeRight as unknown as (a: number[], n?: number) => number[])(a, n),
+          _.takeRight,
+          [{ name: '기본', args: [[1, 2, 3], 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('takeRightWhile', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.takeRightWhile as unknown as (a: number[], fn: (x: number) => boolean) => number[])(a, fn),
+          _.takeRightWhile,
+          [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n > 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('takeWhile', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.takeWhile as unknown as (a: number[], fn: (x: number) => boolean) => number[])(a, fn),
+          _.takeWhile,
+          [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n < 3] }]
+        );
+        assertResultPassed(result);
+      });
+      test('union', () => {
+        const result = runResultTest(
+          (a: number[], b: number[]) => (core.union as unknown as (a: number[], b: number[]) => number[])(a, b),
+          _.union,
+          [{ name: '기본', args: [[2], [1, 2]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('unionBy', () => {
+        const result = runResultTest(
+          (a: number[], b: number[], fn?: (x: number) => number) =>
+            (core.unionBy as unknown as (a: number[], b: number[], fn?: (x: number) => number) => number[])(a, b, fn),
+          _.unionBy,
+          [{ name: '기본', args: [[2.1], [1.2, 2.3], Math.floor] }]
+        );
+        assertResultPassed(result);
+      });
+      test('uniqBy', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => number) => (core.uniqBy as unknown as (a: number[], fn: (x: number) => number) => number[])(a, fn),
+          _.uniqBy,
+          [{ name: '기본', args: [[2.1, 1.2, 2.3], Math.floor] }]
+        );
+        assertResultPassed(result);
+      });
+      test('unzip', () => {
+        const result = runResultTest(
+          (a: (number | string)[][]) => (core.unzip as unknown as (a: (number | string)[][]) => (number | string)[][])(a),
+          _.unzip,
+          [{ name: '기본', args: [[[1, 'a'], [2, 'b']]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('xor', () => {
+        const result = runResultTest(
+          (a: number[], b: number[]) => (core.xor as unknown as (a: number[], b: number[]) => number[])(a, b),
+          _.xor,
+          [{ name: '기본', args: [[2, 1], [2, 3]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('zip', () => {
+        const result = runResultTest(
+          (...a: number[][]) => (core.zip as unknown as (...a: number[][]) => (number | undefined)[][])(...a),
+          _.zip,
+          [{ name: '기본', args: [[1, 2], [10, 20], [100, 200]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('zipObject', () => {
+        const result = runResultTest(
+          (a: string[], b: number[]) => (core.zipObject as unknown as (a: string[], b: number[]) => Record<string, number>)(a, b),
+          _.zipObject,
+          [{ name: '기본', args: [['a', 'b'], [1, 2]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('zipWith', () => {
+        const result = runResultTest(
+          (a: number[], b: number[], fn: (a: number, b: number) => number) =>
+            (core.zipWith as unknown as (a: number[], b: number[], fn: (a: number, b: number) => number) => number[])(a, b, fn),
+          _.zipWith,
+          [{ name: '기본', args: [[1, 2], [10, 20], (a, b) => a + b] }]
+        );
+        assertResultPassed(result);
+      });
+    });
+
+    describe('Collection', () => {
+      test('findLast', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.findLast as unknown as (a: number[], fn: (x: number) => boolean) => number | undefined)(a, fn),
+          _.findLast,
+          [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }]
+        );
+        assertResultPassed(result);
+      });
+      test('flatMap', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => number[]) =>
+            (core.flatMap as unknown as (a: number[], fn: (x: number) => number[]) => number[])(a, fn),
+          _.flatMap,
+          [{ name: '기본', args: [[1, 2], (n: number) => [n, n]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('flatMapDeep', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => unknown) =>
+            (core.flatMapDeep as unknown as (a: number[], fn: (x: number) => unknown) => unknown[])(a, fn),
+          _.flatMapDeep,
+          [{ name: '기본', args: [[1, 2], (n: number) => [[[n, n]]]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('flatMapDepth', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => unknown, d: number) =>
+            (core.flatMapDepth as unknown as (a: number[], fn: (x: number) => unknown, d: number) => unknown[])(a, fn, d),
+          _.flatMapDepth,
+          [{ name: '기본', args: [[1, 2], (n: number) => [[[n, n]]], 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('forEach', () => {
+        const result = runResultTest(
+          (a: number[]) => (core.forEach as unknown as (a: number[], fn: (x: number) => void) => number[])(a, () => {}),
+          (a: number[]) => _.forEach(a, () => {}),
+          [{ name: '기본', args: [[1, 2, 3]] }]
+        );
+        assertResultPassed(result);
+      });
+      test('orderBy', () => {
+        const result = runResultTest(
+          (a: { a: string; b: number }[], keys: (string | ((x: { a: string; b: number }) => number))[], orders?: ('asc' | 'desc')[]) =>
+            (core.orderBy as unknown as (a: { a: string; b: number }[], keys: (string | ((x: { a: string; b: number }) => number))[], orders?: ('asc' | 'desc')[]) => { a: string; b: number }[])(a, keys, orders),
+          _.orderBy,
+          [{ name: '기본', args: [[{ a: 'b', b: 2 }, { a: 'a', b: 1 }], ['a'], ['asc']] }]
+        );
+        assertResultPassed(result);
+      });
+      test('partition', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.partition as unknown as (a: number[], fn: (x: number) => boolean) => [number[], number[]])(a, fn),
+          _.partition,
+          [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }]
+        );
+        assertResultPassed(result);
+      });
+      test('reduceRight', () => {
+        const result = runResultTest(
+          (a: number[], fn: (acc: number, x: number) => number, init: number) =>
+            (core.reduceRight as unknown as (a: number[], fn: (acc: number, x: number) => number, init: number) => number)(a, fn, init),
+          _.reduceRight,
+          [{ name: '기본', args: [[1, 2, 3], (acc: number, x: number) => acc + x, 0] }]
+        );
+        assertResultPassed(result);
+      });
+      test('reject', () => {
+        const result = runResultTest(
+          (a: number[], fn: (x: number) => boolean) =>
+            (core.reject as unknown as (a: number[], fn: (x: number) => boolean) => number[])(a, fn),
+          _.reject,
+          [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }]
+        );
+        assertResultPassed(result);
+      });
+      test('size', () => {
+        const result = runResultTest(
+          (c: number[] | Record<string, number>) => (core.size as unknown as (c: number[] | Record<string, number>) => number)(c),
+          _.size,
+          [
+            { name: '배열', args: [[1, 2, 3]] },
+            { name: '객체', args: [{ a: 1, b: 2 }] },
+          ]
+        );
+        assertResultPassed(result);
+      });
+      test('sample', () => {
+        const arr = [1, 2, 3];
+        const o = (core.sample as unknown as (a: number[]) => number)(arr);
+        expect(arr).toContain(o);
+      });
+      test('sampleSize', () => {
+        const arr = [1, 2, 3];
+        const o = (core.sampleSize as unknown as (a: number[], n: number) => number[])(arr, 2);
+        expect(o.length).toBe(2);
+        o.forEach((x) => expect(arr).toContain(x));
+      });
+      test('shuffle', () => {
+        const arr = [1, 2, 3];
+        const o = (core.shuffle as unknown as (a: number[]) => number[])([...arr]);
+        expect(o.sort()).toEqual(arr.sort());
+      });
+    });
+
+    describe('Lang', () => {
+      test('castArray', () => {
+        const result = runResultTest(
+          (v: number) => (core.castArray as unknown as (v: number) => number[])(v),
+          _.castArray,
+          [{ name: '숫자', args: [1] }]
+        );
+        assertResultPassed(result);
+      });
+      test('clone', () => {
+        const result = runResultTest(
+          (v: { a: number }) => (core.clone as unknown as (v: { a: number }) => { a: number })(v),
+          _.clone,
+          [{ name: '객체', args: [{ a: 1 }] }]
+        );
+        assertResultPassed(result);
+      });
+      test('eq', () => {
+        const result = runResultTest(
+          (a: number, b: number) => (core.eq as unknown as (a: number, b: number) => boolean)(a, b),
+          _.eq,
+          [
+            { name: '같음', args: [1, 1] },
+            { name: '다름', args: [1, 2] },
+          ]
+        );
+        assertResultPassed(result);
+      });
+      test('isEqual', () => {
+        const result = runResultTest(
+          (a: unknown, b: unknown) => (core.isEqual as unknown as (a: unknown, b: unknown) => boolean)(a, b),
+          _.isEqual,
+          [{ name: '객체', args: [{ a: 1 }, { a: 1 }] }]
+        );
+        assertResultPassed(result);
+      });
+      test('isNil', () => {
+        const result = runResultTest(
+          (v: unknown) => (core.isNil as unknown as (v: unknown) => boolean)(v),
+          _.isNil,
+          [
+            { name: 'null', args: [null] },
+            { name: 'undefined', args: [undefined] },
+            { name: '값', args: [1] },
+          ]
+        );
+        assertResultPassed(result);
+      });
+      test('isString', () => {
+        const result = runResultTest(
+          (v: unknown) => (core.isString as unknown as (v: unknown) => boolean)(v),
+          _.isString,
+          [
+            { name: '문자열', args: ['a'] },
+            { name: '숫자', args: [1] },
+          ]
+        );
+        assertResultPassed(result);
+      });
+      test('toNumber', () => {
+        const result = runResultTest(
+          (v: string) => (core.toNumber as unknown as (v: string) => number)(v),
+          _.toNumber,
+          [{ name: '기본', args: ['3.2'] }]
+        );
+        assertResultPassed(result);
+      });
+      test('gt, gte, lt, lte', () => {
+        assertResultPassed(runResultTest((a: number, b: number) => (core.gt as unknown as (a: number, b: number) => boolean)(a, b), _.gt, [{ name: 'gt', args: [3, 1] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.gte as unknown as (a: number, b: number) => boolean)(a, b), _.gte, [{ name: 'gte', args: [1, 1] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.lt as unknown as (a: number, b: number) => boolean)(a, b), _.lt, [{ name: 'lt', args: [1, 3] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.lte as unknown as (a: number, b: number) => boolean)(a, b), _.lte, [{ name: 'lte', args: [1, 1] }]));
+      });
+      test('isBoolean', () => {
+        const result = runResultTest(
+          (v: unknown) => (core.isBoolean as unknown as (v: unknown) => boolean)(v),
+          _.isBoolean,
+          [{ name: 'true', args: [true] }, { name: '숫자', args: [1] }]
+        );
+        assertResultPassed(result);
+      });
+      test('isDate', () => {
+        const result = runResultTest(
+          (v: unknown) => (core.isDate as unknown as (v: unknown) => boolean)(v),
+          _.isDate,
+          [{ name: 'Date', args: [new Date()] }, { name: '숫자', args: [1] }]
+        );
+        assertResultPassed(result);
+      });
+      test('toInteger', () => {
+        const result = runResultTest(
+          (v: string) => (core.toInteger as unknown as (v: string) => number)(v),
+          _.toInteger,
+          [{ name: '기본', args: ['3.2'] }]
+        );
+        assertResultPassed(result);
+      });
+    });
+
+    describe('Math', () => {
+      test('add', () => {
+        const result = runResultTest(
+          (a: number, b: number) => (core.add as unknown as (a: number, b: number) => number)(a, b),
+          _.add,
+          [{ name: '기본', args: [6, 4] }]
+        );
+        assertResultPassed(result);
+      });
+      test('ceil, floor, round', () => {
+        assertResultPassed(runResultTest((n: number, p?: number) => (core.ceil as unknown as (n: number, p?: number) => number)(n, p), _.ceil, [{ name: 'ceil', args: [4.006, 2] }]));
+        assertResultPassed(runResultTest((n: number, p?: number) => (core.floor as unknown as (n: number, p?: number) => number)(n, p), _.floor, [{ name: 'floor', args: [4.006, 2] }]));
+        assertResultPassed(runResultTest((n: number, p?: number) => (core.round as unknown as (n: number, p?: number) => number)(n, p), _.round, [{ name: 'round', args: [4.006, 2] }]));
+      });
+      test('divide, multiply, subtract', () => {
+        assertResultPassed(runResultTest((a: number, b: number) => (core.divide as unknown as (a: number, b: number) => number)(a, b), _.divide, [{ name: 'divide', args: [6, 4] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.multiply as unknown as (a: number, b: number) => number)(a, b), _.multiply, [{ name: 'multiply', args: [6, 4] }]));
+        assertResultPassed(runResultTest((a: number, b: number) => (core.subtract as unknown as (a: number, b: number) => number)(a, b), _.subtract, [{ name: 'subtract', args: [6, 4] }]));
+      });
+      test('maxBy, meanBy, minBy, sumBy', () => {
+        const arr = [{ n: 1 }, { n: 2 }, { n: 3 }];
+        assertResultPassed(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.maxBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => { n: number })(a, fn), _.maxBy, [{ name: 'maxBy', args: [arr, (x) => x.n] }]));
+        assertResultPassed(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.meanBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => number)(a, fn), _.meanBy, [{ name: 'meanBy', args: [arr, (x) => x.n] }]));
+        assertResultPassed(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.minBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => { n: number })(a, fn), _.minBy, [{ name: 'minBy', args: [arr, (x) => x.n] }]));
+        assertResultPassed(runResultTest((a: { n: number }[], fn: (x: { n: number }) => number) => (core.sumBy as unknown as (a: { n: number }[], fn: (x: { n: number }) => number) => number)(a, fn), _.sumBy, [{ name: 'sumBy', args: [arr, (x) => x.n] }]));
+      });
+    });
+
+    describe('Number', () => {
+      test('random', () => {
+        const o = (core.random as unknown as (a?: number, b?: number) => number)(0, 5);
+        expect(typeof o).toBe('number');
+        expect(o >= 0 && o <= 5).toBe(true);
+      });
+    });
+
+    describe('Object', () => {
+      test('assign', () => {
+        const result = runResultTest(
+          (a: Record<string, number>, b: Record<string, number>) => (core.assign as any)({}, a, b),
+          (a: Record<string, number>, b: Record<string, number>) => (_.assign as any)({}, a, b),
+          [{ name: '기본', args: [{ a: 1 }, { b: 2 }] }]
+        );
+        assertResultPassed(result);
+      });
+      test('defaults', () => {
+        const result = runResultTest(
+          (a: Record<string, number>, b: Record<string, number>) => (core.defaults as any)({}, a, b),
+          (a: Record<string, number>, b: Record<string, number>) => (_.defaults as any)({}, a, b),
+          [{ name: '기본', args: [{ a: 1 }, { a: 2, b: 2 }] }]
+        );
+        assertResultPassed(result);
+      });
+      test('has', () => {
+        const result = runResultTest(
+          (o: Record<string, number>, path: string) => (core.has as unknown as (o: Record<string, number>, path: string) => boolean)(o, path),
+          _.has,
+          [{ name: '기본', args: [{ a: 1 }, 'a'] }]
+        );
+        assertResultPassed(result);
+      });
+      test('invert', () => {
+        const result = runResultTest(
+          (o: Record<string, string>) => (core.invert as unknown as (o: Record<string, string>) => Record<string, string>)(o),
+          _.invert,
+          [{ name: '기본', args: [{ a: '1', b: '2' }] }]
+        );
+        assertResultPassed(result);
+      });
+      test('merge', () => {
+        const result = runResultTest(
+          (a: Record<string, unknown>, b: Record<string, unknown>) => (core.merge as any)({}, a, b),
+          (a: Record<string, unknown>, b: Record<string, unknown>) => (_.merge as any)({}, a, b),
+          [{ name: '기본', args: [{ a: 1 }, { b: 2 }] }]
+        );
+        assertResultPassed(result);
+      });
+      test('set', () => {
+        const result = runResultTest(
+          (o: Record<string, unknown>, path: string, v: unknown) => (core.set as unknown as (o: Record<string, unknown>, path: string, v: unknown) => Record<string, unknown>)({ ...o }, path, v),
+          (o: Record<string, unknown>, path: string, v: unknown) => _.set({ ...o }, path, v) as Record<string, unknown>,
+          [{ name: '기본', args: [{}, 'a.b', 1] }]
+        );
+        assertResultPassed(result);
+      });
+      test('toPairs', () => {
+        const result = runResultTest(
+          (o: Record<string, number>) => (core.toPairs as unknown as (o: Record<string, number>) => [string, number][])(o),
+          _.toPairs,
+          [{ name: '기본', args: [{ a: 1, b: 2 }] }]
+        );
+        assertResultPassed(result);
+      });
+    });
+
+    describe('String', () => {
+      test('capitalize', () => {
+        const result = runResultTest(
+          (s: string) => (core.capitalize as unknown as (s: string) => string)(s),
+          _.capitalize,
+          [{ name: '기본', args: ['FRED'] }]
+        );
+        assertResultPassed(result);
+      });
+      test('kebabCase', () => {
+        const result = runResultTest(
+          (s: string) => (core.kebabCase as unknown as (s: string) => string)(s),
+          _.kebabCase,
+          [{ name: '기본', args: ['Foo Bar'] }]
+        );
+        assertResultPassed(result);
+      });
+      test('pad', () => {
+        const result = runResultTest(
+          (s: string, n: number, chars?: string) => (core.pad as unknown as (s: string, n: number, chars?: string) => string)(s, n, chars),
+          _.pad,
+          [{ name: '기본', args: ['abc', 8] }]
+        );
+        assertResultPassed(result);
+      });
+      test('repeat', () => {
+        const result = runResultTest(
+          (s: string, n: number) => (core.repeat as unknown as (s: string, n: number) => string)(s, n),
+          _.repeat,
+          [{ name: '기본', args: ['*', 3] }]
+        );
+        assertResultPassed(result);
+      });
+      test('snakeCase', () => {
+        const result = runResultTest(
+          (s: string) => (core.snakeCase as unknown as (s: string) => string)(s),
+          _.snakeCase,
+          [{ name: '기본', args: ['Foo Bar'] }]
+        );
+        assertResultPassed(result);
+      });
+      test('toLower, toUpper', () => {
+        assertResultPassed(runResultTest((s: string) => (core.toLower as unknown as (s: string) => string)(s), _.toLower, [{ name: 'toLower', args: ['--Foo-Bar--'] }]));
+        assertResultPassed(runResultTest((s: string) => (core.toUpper as unknown as (s: string) => string)(s), _.toUpper, [{ name: 'toUpper', args: ['--foo-bar--'] }]));
+      });
+      test('trimEnd', () => {
+        const result = runResultTest(
+          (s: string, chars?: string) => (core.trimEnd as unknown as (s: string, chars?: string) => string)(s, chars),
+          _.trimEnd,
+          [{ name: '기본', args: ['  abc  '] }]
+        );
+        assertResultPassed(result);
+      });
+      test('words', () => {
+        const result = runResultTest(
+          (s: string) => (core.words as unknown as (s: string) => string[])(s),
+          _.words,
+          [{ name: '기본', args: ['fred, barney, & pebbles'] }]
+        );
+        assertResultPassed(result);
+      });
+    });
+
+    describe('Function', () => {
+      test('once', () => {
+        const result = runResultTest(
+          (fn: () => number) => (core.once as unknown as (fn: () => number) => () => number)(fn),
+          _.once,
+          [{ name: '기본', args: [() => 1] }]
+        );
+        assertResultPassed(result);
+      });
+    });
+
+    describe('Date', () => {
+      test('now', () => {
+        const o = (core.now as unknown as () => number)();
+        expect(typeof o).toBe('number');
+        expect(o).toBeGreaterThanOrEqual(0);
+      });
+    });
+
+    describe('Seq', () => {
+      test('chain', () => {
+        const result = runResultTest(
+          (a: number[]) => (core.chain as unknown as (a: number[]) => unknown)(a),
+          _.chain,
+          [{ name: '기본', args: [[1, 2, 3]] }]
+        );
+        assertResultPassed(result);
+      });
+    });
+
+    describe('Util', () => {
+      test('defaultTo', () => {
+        const result = runResultTest(
+          (v: unknown, d: number) => (core.defaultTo as unknown as (v: unknown, d: number) => unknown)(v, d),
+          _.defaultTo,
+          [
+            { name: '값 있음', args: [1, 10] },
+            { name: 'null', args: [null, 10] },
+          ]
+        );
+        assertResultPassed(result);
+      });
+      test('noop', () => {
+        expect((core.noop as unknown as () => undefined)()).toBe(undefined);
+      });
+      test('times', () => {
+        const result = runResultTest(
+          (n: number, fn: (i: number) => number) => (core.times as unknown as (n: number, fn: (i: number) => number) => number[])(n, fn),
+          _.times,
+          [{ name: '기본', args: [3, (i: number) => i * 2] }]
+        );
+        assertResultPassed(result);
+      });
+      test('uniqueId', () => {
+        const a = (core.uniqueId as unknown as (prefix?: string) => string)();
+        const b = (core.uniqueId as unknown as (prefix?: string) => string)('id-');
+        expect(typeof a).toBe('string');
+        expect(b.startsWith('id-')).toBe(true);
+      });
     });
   });
 });

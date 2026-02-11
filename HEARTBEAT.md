@@ -49,7 +49,7 @@
 
 - **구현/체크리스트**: `docs/LODASH_IMPLEMENTATION_CHECKLIST.md` (있을 경우)
 - **커밋 규칙**: `docs/COMMIT.md`
-- **동등성 실패 해석**: `docs/BENCHMARK_AND_RESULT_FEEDBACK.md` § 결과 동등성 부분
+- **동등성 실패 해석**: `docs/RESULT_FEEDBACK.md`
 - **실패 목록 보고서**: `bun run generate-feedback` 후 `docs/feedback-report.md` (동등성 실패 요약만 사용)
 
 ---

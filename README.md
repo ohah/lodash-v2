@@ -85,7 +85,7 @@ const result = runBenchmarkSuite({
 
 ## 문서 (AI 셀프 피드백)
 
-- **[docs/BENCHMARK_AND_RESULT_FEEDBACK.md](docs/BENCHMARK_AND_RESULT_FEEDBACK.md)** — 벤치마크·결과 실패 출력 형식 해석 가이드. AI가 보고서를 읽고 수정 방향을 잡을 수 있도록 작성됨.
+- **[docs/RESULT_FEEDBACK.md](docs/RESULT_FEEDBACK.md)** — 결과 동등성 실패 해석 가이드. AI가 보고서를 읽고 수정 방향을 잡을 수 있도록 작성됨.
 - **docs/feedback-report.md** — `bun run generate-feedback` 실행 시 생성되는 마크다운. 결과 동등성 실패 목록(함수, 케이스, expected vs actual)과 벤치마크 요약이 포함됨.
 
 ## 참고
