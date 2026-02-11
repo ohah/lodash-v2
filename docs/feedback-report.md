@@ -1,6 +1,6 @@
 # 피드백 보고서 (AI 셀프 피드백용)
 
-- **생성 시각**: 2026-02-11T03:09:20.868Z
+- **생성 시각**: 2026-02-11T03:31:36.485Z
 - **기준**: lodash 4.17.23, es-toolkit 1.44
 
 ---
@@ -78,7 +78,7 @@
 | lte | lte | `[1,1]` | `true` | `undefined` |
 | isBoolean | true | `[true]` | `true` | `undefined` |
 | isBoolean | 숫자 | `[1]` | `false` | `undefined` |
-| isDate | Date | `["2026-02-11T03:09:20.840Z"]` | `true` | `undefined` |
+| isDate | Date | `["2026-02-11T03:31:36.456Z"]` | `true` | `undefined` |
 | isDate | 숫자 | `[1]` | `false` | `undefined` |
 | toInteger | 기본 | `["3.2"]` | `3` | `undefined` |
 | add | 기본 | `[6,4]` | `10` | `undefined` |
@@ -125,7 +125,7 @@
 
 | 함수 | fastest | ours (ops/sec) | lodash (ops/sec) | es-toolkit (ops/sec) | 비고 |
 |------|---------|----------------|------------------|----------------------|------|
-| chunk | es-toolkit | 6,341,355 | 4,832,241 | 8,899,701 | ours 1.40x |
+| chunk | es-toolkit | 6,282,788 | 4,818,658 | 8,550,359 | ours 1.36x |
 
 ---
 
