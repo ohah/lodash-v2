@@ -98,7 +98,36 @@ export const differenceBy = (array: unknown[], ...values: unknown[]): unknown[] 
     return !valuesTransformed.includes(itemTransformed);
   });
 };
-export const differenceWith = () => {};
+export const differenceWith = (array: unknown[], ...values: unknown[]): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+
+  // values가 빈 경우 기본 값으로 초기화
+  if (values.length === 0) {
+    return [...array];
+  }
+
+  // values를 한 배열로 플렉토드하고 변환 알고리뷰 적용
+  const valuesArray: unknown[] = [];
+  for (const value of values) {
+    if (Array.isArray(value)) {
+      valuesArray.push(...value);
+    } else {
+      valuesArray.push(value);
+    }
+  }
+
+  // 변환된 values 배열 (기본 값 함수)
+  const iterateeFn = typeof values[values.length - 1] === 'function' ? values[values.length - 1] as (value: unknown) => unknown : ((x: unknown) => x);
+  const valuesTransformed = valuesArray.map(iterateeFn);
+
+  // 필터링
+  return array.filter(item => {
+    const itemTransformed = iterateeFn(item);
+    return !valuesTransformed.includes(itemTransformed);
+  });
+};
 export const drop = (array: unknown[], n: number = 1): unknown[] => {
   if (!Array.isArray(array)) {
     return [];
