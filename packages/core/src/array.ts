@@ -151,7 +151,22 @@ export const dropRight = (array: unknown[], n: number = 1): unknown[] => {
   const dropCount = Math.min(n, array.length);
   return array.slice(0, array.length - dropCount);
 };
-export const dropRightWhile = () => {};
+export const dropRightWhile = (array: unknown[], predicate?: Function): unknown[] => {
+  if (!Array.isArray(array)) {
+    return [];
+  }
+
+  if (predicate === undefined) {
+    return [];
+  }
+
+  let index = array.length - 1;
+  while (index >= 0 && predicate(array[index], index, array)) {
+    index--;
+  }
+
+  return array.slice(0, index + 1);
+};
 export const dropWhile = () => {};
 export const fill = () => {};
 export const findIndex = () => {};
