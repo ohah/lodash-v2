@@ -1,6 +1,6 @@
 # 피드백 보고서 (AI 셀프 피드백용)
 
-- **생성 시각**: 2026-02-11T04:17:49.186Z
+- **생성 시각**: 2026-02-11T05:18:52.208Z
 - **기준**: lodash 4.17.23
 
 ---
@@ -78,7 +78,7 @@
 | lte | lte | `[1,1]` | `true` | `undefined` |
 | isBoolean | true | `[true]` | `true` | `undefined` |
 | isBoolean | 숫자 | `[1]` | `false` | `undefined` |
-| isDate | Date | `["2026-02-11T04:17:49.181Z"]` | `true` | `undefined` |
+| isDate | Date | `["2026-02-11T05:18:52.204Z"]` | `true` | `undefined` |
 | isDate | 숫자 | `[1]` | `false` | `undefined` |
 | toInteger | 기본 | `["3.2"]` | `3` | `undefined` |
 | add | 기본 | `[6,4]` | `10` | `undefined` |
