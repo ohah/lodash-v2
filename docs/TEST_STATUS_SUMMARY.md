@@ -1,11 +1,25 @@
 # 로컬 테스트 진행 상황 요약
 
-**실행 일시:** 2025-02-10  
-**명령어:** `bun run --filter=@lodash-v2/test test`
+**실행 일시:** 2026-02-11  
+**명령어:** `bun run --filter=@lodash-v2/test test` · `bun run --filter=@lodash-v2/core test`
 
 ---
 
-## 결과 요약
+## 최근 실행 결과 (실제 실행 기준)
+
+| 패키지 | 통과 | 실패/에러 | 비고 |
+|--------|------|-----------|------|
+| **@lodash-v2/test** | 4 | 2 (모듈 없음) | speed.test.ts 4 pass. result.test.ts·suite — `result` 모듈 없어 미실행 |
+| **@lodash-v2/core** | 3 | 3 | exports 3 pass. build-load·placeholder 기대값 불일치 3 fail |
+| **합계** | **7** | **5** | |
+
+- **동등성 테스트(함수별 lodash 대비)** 는 `test/src/result.ts` 및 `test/src/__tests__/result-equivalence.test.ts` 가 있을 때만 실행됨.  
+  현재 해당 스위트가 없어 **함수별 통과/실패 목록은 아래 이전 요약을 유지**합니다.  
+  스위트 복구 후 `bun run --filter=@lodash-v2/test test` 로 동등성 테스트를 돌린 뒤, 이 문서를 다시 생성·갱신하면 됩니다.
+
+---
+
+## 결과 요약 (마지막 동등성 스위트 실행 기준)
 
 | 구분 | 수 |
 |------|-----|
@@ -69,11 +83,12 @@ isArray
 
 ## 다음 작업 제안
 
-1. **Lang:** `isNumber`, `isEmpty`, `toArray`, `cloneDeep` 구현/수정 후 해당 describe만 실행해 검증
-2. **Math:** `sum`, `max`, `min`, `mean` 구현
-3. **Number:** `clamp`, `inRange` 구현
-4. **Object:** `get`, `pick`, `omit`, `keys`, `values` 구현
-5. **String:** `camelCase`, `trim` 구현
-6. **Util:** `identity`, `range` 구현
+1. **동등성 스위트 복구:** `test/src/result.ts`, `test/src/__tests__/result-equivalence.test.ts` 추가 후 `bun run --filter=@lodash-v2/test test` 실행하여 **본 문서 상단·함수별 목록 재갱신**.
+2. **Lang:** `isNumber`, `isEmpty`, `toArray`, `cloneDeep` 구현/수정 후 해당 describe만 실행해 검증
+3. **Math:** `sum`, `max`, `min`, `mean` 구현
+4. **Number:** `clamp`, `inRange` 구현
+5. **Object:** `get`, `pick`, `omit`, `keys`, `values` 구현
+6. **String:** `camelCase`, `trim` 구현
+7. **Util:** `identity`, `range` 구현
 
 체크리스트(`LODASH_IMPLEMENTATION_CHECKLIST.md`)의 구현 여부는 실제 테스트 결과와 일부 다름(예: toArray [x]인데 실패). 테스트 통과 기준으로 체크리스트를 맞춰 두는 것을 권장합니다.
