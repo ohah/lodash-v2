@@ -22,7 +22,7 @@
 | 3 | [x] | concat |
 | 4 | [x] | difference |
 | 5 | [x] | differenceBy |
-| 6 | [ ] | differenceWith |
+| 6 | [x] | differenceWith |
 | 7 | [x] | drop |
 | 8 | [x] | dropRight |
 | 9 | [ ] | dropRightWhile |
