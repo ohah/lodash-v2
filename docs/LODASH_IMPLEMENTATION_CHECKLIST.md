@@ -21,7 +21,7 @@
 | 2 | [x] | compact |
 | 3 | [x] | concat |
 | 4 | [x] | difference |
-| 5 | [ ] | differenceBy |
+| 5 | [x] | differenceBy |
 | 6 | [ ] | differenceWith |
 | 7 | [x] | drop |
 | 8 | [x] | dropRight |
