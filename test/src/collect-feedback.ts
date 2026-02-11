@@ -1,7 +1,7 @@
 /**
  * 결과 동등성 실패를 수집해 AI 셀프 피드백용 구조를 반환합니다.
  * generate-feedback-report.ts에서 사용합니다.
- * - 구현된 Phase 1 46개 함수 케이스만 포함합니다.
+ * - 구현된 Phase 1 46개 + 미구현 함수 케이스를 포함해, 미구현도 실패 목록으로 피드백합니다.
  */
 
 import * as _ from 'lodash';
@@ -473,7 +473,107 @@ const resultCases: Array<{
   },
 ];
 
-const allResultCases = resultCases;
+/** 미구현 함수 — 실패 시 피드백으로 "구현 필요" 목록에 포함됨 */
+const unimplementedCases: Array<{
+  function: string;
+  ours: (...args: unknown[]) => unknown;
+  lodashFn: (...args: unknown[]) => unknown;
+  cases: Array<{ name: string; args: unknown[] }>;
+}> = [
+  { function: 'differenceBy', ours: (...args: unknown[]) => (core.differenceBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.differenceBy, cases: [{ name: '기본', args: [[2.1, 1.2], [2.3, 3.4], Math.floor] }] },
+  { function: 'differenceWith', ours: (...args: unknown[]) => (core.differenceWith as (...a: unknown[]) => unknown)(...args), lodashFn: _.differenceWith, cases: [{ name: '기본', args: [[1, 2], [2, 3], (a: number, b: number) => a === b] }] },
+  { function: 'dropRightWhile', ours: (...args: unknown[]) => (core.dropRightWhile as (...a: unknown[]) => unknown)(...args), lodashFn: _.dropRightWhile, cases: [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n > 2] }] },
+  { function: 'dropWhile', ours: (...args: unknown[]) => (core.dropWhile as (...a: unknown[]) => unknown)(...args), lodashFn: _.dropWhile, cases: [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n < 3] }] },
+  { function: 'fill', ours: (a: unknown[], v: unknown, s?: number, e?: number) => (core.fill as (...a: unknown[]) => unknown)([...a], v, s, e), lodashFn: (arr: unknown[], v: unknown, s?: number, e?: number) => _.fill([...arr], v, s, e), cases: [{ name: '기본', args: [[1, 2, 3], 'a'] }] },
+  { function: 'findIndex', ours: (...args: unknown[]) => (core.findIndex as (...a: unknown[]) => unknown)(...args), lodashFn: _.findIndex, cases: [{ name: '기본', args: [[1, 2, 3], (x: number) => x === 2] }] },
+  { function: 'findLastIndex', ours: (...args: unknown[]) => (core.findLastIndex as (...a: unknown[]) => unknown)(...args), lodashFn: _.findLastIndex, cases: [{ name: '기본', args: [[1, 2, 2, 3], (x: number) => x === 2] }] },
+  { function: 'flattenDeep', ours: (...args: unknown[]) => (core.flattenDeep as (...a: unknown[]) => unknown)(...args), lodashFn: _.flattenDeep, cases: [{ name: '기본', args: [[[1, [2, [3, [4]]]]]] }] },
+  { function: 'flattenDepth', ours: (...args: unknown[]) => (core.flattenDepth as (...a: unknown[]) => unknown)(...args), lodashFn: _.flattenDepth, cases: [{ name: 'depth 2', args: [[[1, [2, [3, [4]]]]], 2] }] },
+  { function: 'indexOf', ours: (...args: unknown[]) => (core.indexOf as (...a: unknown[]) => unknown)(...args), lodashFn: _.indexOf, cases: [{ name: '기본', args: [[1, 2, 1, 2], 2] }] },
+  { function: 'intersection', ours: (...args: unknown[]) => (core.intersection as (...a: unknown[]) => unknown)(...args), lodashFn: _.intersection, cases: [{ name: '기본', args: [[2, 1], [2, 3]] }] },
+  { function: 'intersectionBy', ours: (...args: unknown[]) => (core.intersectionBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.intersectionBy, cases: [{ name: '기본', args: [[2.1, 1.2], [2.3, 3.4], Math.floor] }] },
+  { function: 'intersectionWith', ours: (...args: unknown[]) => (core.intersectionWith as (...a: unknown[]) => unknown)(...args), lodashFn: _.intersectionWith, cases: [{ name: '기본', args: [[1, 2], [2, 3], (a: number, b: number) => a === b] }] },
+  { function: 'join', ours: (...args: unknown[]) => (core.join as (...a: unknown[]) => unknown)(...args), lodashFn: _.join, cases: [{ name: '기본', args: [['a', 'b', 'c'], '~'] }] },
+  { function: 'lastIndexOf', ours: (...args: unknown[]) => (core.lastIndexOf as (...a: unknown[]) => unknown)(...args), lodashFn: _.lastIndexOf, cases: [{ name: '기본', args: [[1, 2, 1, 2], 2] }] },
+  { function: 'nth', ours: (...args: unknown[]) => (core.nth as (...a: unknown[]) => unknown)(...args), lodashFn: _.nth, cases: [{ name: '기본', args: [[1, 2, 3], 1] }] },
+  { function: 'pull', ours: (a: number[], ...v: number[]) => (core.pull as (...a: unknown[]) => unknown)([...a], ...v), lodashFn: (arr: number[], ...v: number[]) => _.pull([...arr], ...v), cases: [{ name: '기본', args: [[1, 2, 3, 1, 2], 2, 1] }] },
+  { function: 'pullAll', ours: (a: number[], v: number[]) => (core.pullAll as (...a: unknown[]) => unknown)([...a], v), lodashFn: (arr: number[], v: number[]) => _.pullAll([...arr], v), cases: [{ name: '기본', args: [[1, 2, 3, 1, 2], [2, 1]] }] },
+  { function: 'pullAt', ours: (a: number[], i: number[]) => (core.pullAt as (...a: unknown[]) => unknown)([...a], i), lodashFn: (arr: number[], i: number[]) => _.pullAt([...arr], i), cases: [{ name: '기본', args: [[1, 2, 3, 4], [1, 3]] }] },
+  { function: 'remove', ours: (a: number[], fn: (x: number) => boolean) => (core.remove as (...a: unknown[]) => unknown)([...a], fn), lodashFn: (arr: number[], fn: (x: number) => boolean) => _.remove([...arr], fn), cases: [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }] },
+  { function: 'reverse', ours: (a: number[]) => (core.reverse as (...a: unknown[]) => unknown)([...a]), lodashFn: (arr: number[]) => _.reverse([...arr]), cases: [{ name: '기본', args: [[1, 2, 3]] }] },
+  { function: 'slice', ours: (...args: unknown[]) => (core.slice as (...a: unknown[]) => unknown)(...args), lodashFn: _.slice, cases: [{ name: '기본', args: [[1, 2, 3, 4], 1, 3] }] },
+  { function: 'sortedIndex', ours: (...args: unknown[]) => (core.sortedIndex as (...a: unknown[]) => unknown)(...args), lodashFn: _.sortedIndex, cases: [{ name: '기본', args: [[30, 50], 40] }] },
+  { function: 'sortedIndexBy', ours: (...args: unknown[]) => (core.sortedIndexBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.sortedIndexBy, cases: [{ name: '기본', args: [[{ age: 30 }, { age: 50 }], 40, (o: { age: number }) => o.age] }] },
+  { function: 'takeRight', ours: (...args: unknown[]) => (core.takeRight as (...a: unknown[]) => unknown)(...args), lodashFn: _.takeRight, cases: [{ name: '기본', args: [[1, 2, 3], 2] }] },
+  { function: 'takeRightWhile', ours: (...args: unknown[]) => (core.takeRightWhile as (...a: unknown[]) => unknown)(...args), lodashFn: _.takeRightWhile, cases: [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n > 2] }] },
+  { function: 'takeWhile', ours: (...args: unknown[]) => (core.takeWhile as (...a: unknown[]) => unknown)(...args), lodashFn: _.takeWhile, cases: [{ name: '기본', args: [[1, 2, 3, 4], (n: number) => n < 3] }] },
+  { function: 'union', ours: (...args: unknown[]) => (core.union as (...a: unknown[]) => unknown)(...args), lodashFn: _.union, cases: [{ name: '기본', args: [[2], [1, 2]] }] },
+  { function: 'unionBy', ours: (...args: unknown[]) => (core.unionBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.unionBy, cases: [{ name: '기본', args: [[2.1], [1.2, 2.3], Math.floor] }] },
+  { function: 'uniqBy', ours: (...args: unknown[]) => (core.uniqBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.uniqBy, cases: [{ name: '기본', args: [[2.1, 1.2, 2.3], Math.floor] }] },
+  { function: 'unzip', ours: (...args: unknown[]) => (core.unzip as (...a: unknown[]) => unknown)(...args), lodashFn: _.unzip, cases: [{ name: '기본', args: [[[1, 'a'], [2, 'b']]] }] },
+  { function: 'xor', ours: (...args: unknown[]) => (core.xor as (...a: unknown[]) => unknown)(...args), lodashFn: _.xor, cases: [{ name: '기본', args: [[2, 1], [2, 3]] }] },
+  { function: 'zip', ours: (...args: unknown[]) => (core.zip as (...a: unknown[]) => unknown)(...args), lodashFn: _.zip, cases: [{ name: '기본', args: [[1, 2], [10, 20], [100, 200]] }] },
+  { function: 'zipObject', ours: (...args: unknown[]) => (core.zipObject as (...a: unknown[]) => unknown)(...args), lodashFn: _.zipObject, cases: [{ name: '기본', args: [['a', 'b'], [1, 2]] }] },
+  { function: 'zipWith', ours: (...args: unknown[]) => (core.zipWith as (...a: unknown[]) => unknown)(...args), lodashFn: _.zipWith, cases: [{ name: '기본', args: [[1, 2], [10, 20], (a: number, b: number) => a + b] }] },
+  { function: 'findLast', ours: (...args: unknown[]) => (core.findLast as (...a: unknown[]) => unknown)(...args), lodashFn: _.findLast, cases: [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }] },
+  { function: 'flatMap', ours: (...args: unknown[]) => (core.flatMap as (...a: unknown[]) => unknown)(...args), lodashFn: _.flatMap, cases: [{ name: '기본', args: [[1, 2], (n: number) => [n, n]] }] },
+  { function: 'flatMapDeep', ours: (...args: unknown[]) => (core.flatMapDeep as (...a: unknown[]) => unknown)(...args), lodashFn: _.flatMapDeep, cases: [{ name: '기본', args: [[1, 2], (n: number) => [[[n, n]]]] }] },
+  { function: 'flatMapDepth', ours: (...args: unknown[]) => (core.flatMapDepth as (...a: unknown[]) => unknown)(...args), lodashFn: _.flatMapDepth, cases: [{ name: '기본', args: [[1, 2], (n: number) => [[[n, n]]], 2] }] },
+  { function: 'forEach', ours: (a: number[]) => (core.forEach as (...a: unknown[]) => unknown)(a, () => {}), lodashFn: (a: number[]) => _.forEach(a, () => {}), cases: [{ name: '기본', args: [[1, 2, 3]] }] },
+  { function: 'orderBy', ours: (...args: unknown[]) => (core.orderBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.orderBy, cases: [{ name: '기본', args: [[{ a: 'b', b: 2 }, { a: 'a', b: 1 }], ['a'], ['asc']] }] },
+  { function: 'partition', ours: (...args: unknown[]) => (core.partition as (...a: unknown[]) => unknown)(...args), lodashFn: _.partition, cases: [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }] },
+  { function: 'reduceRight', ours: (...args: unknown[]) => (core.reduceRight as (...a: unknown[]) => unknown)(...args), lodashFn: _.reduceRight, cases: [{ name: '기본', args: [[1, 2, 3], (acc: number, x: number) => acc + x, 0] }] },
+  { function: 'reject', ours: (...args: unknown[]) => (core.reject as (...a: unknown[]) => unknown)(...args), lodashFn: _.reject, cases: [{ name: '기본', args: [[1, 2, 3, 4], (x: number) => x % 2 === 0] }] },
+  { function: 'size', ours: (...args: unknown[]) => (core.size as (...a: unknown[]) => unknown)(...args), lodashFn: _.size, cases: [{ name: '배열', args: [[1, 2, 3]] }, { name: '객체', args: [{ a: 1, b: 2 }] }] },
+  { function: 'castArray', ours: (...args: unknown[]) => (core.castArray as (...a: unknown[]) => unknown)(...args), lodashFn: _.castArray, cases: [{ name: '숫자', args: [1] }] },
+  { function: 'clone', ours: (...args: unknown[]) => (core.clone as (...a: unknown[]) => unknown)(...args), lodashFn: _.clone, cases: [{ name: '객체', args: [{ a: 1 }] }] },
+  { function: 'eq', ours: (...args: unknown[]) => (core.eq as (...a: unknown[]) => unknown)(...args), lodashFn: _.eq, cases: [{ name: '같음', args: [1, 1] }, { name: '다름', args: [1, 2] }] },
+  { function: 'isEqual', ours: (...args: unknown[]) => (core.isEqual as (...a: unknown[]) => unknown)(...args), lodashFn: _.isEqual, cases: [{ name: '객체', args: [{ a: 1 }, { a: 1 }] }] },
+  { function: 'isNil', ours: (...args: unknown[]) => (core.isNil as (...a: unknown[]) => unknown)(...args), lodashFn: _.isNil, cases: [{ name: 'null', args: [null] }, { name: 'undefined', args: [undefined] }, { name: '값', args: [1] }] },
+  { function: 'isString', ours: (...args: unknown[]) => (core.isString as (...a: unknown[]) => unknown)(...args), lodashFn: _.isString, cases: [{ name: '문자열', args: ['a'] }, { name: '숫자', args: [1] }] },
+  { function: 'toNumber', ours: (...args: unknown[]) => (core.toNumber as (...a: unknown[]) => unknown)(...args), lodashFn: _.toNumber, cases: [{ name: '기본', args: ['3.2'] }] },
+  { function: 'gt', ours: (...args: unknown[]) => (core.gt as (...a: unknown[]) => unknown)(...args), lodashFn: _.gt, cases: [{ name: 'gt', args: [3, 1] }] },
+  { function: 'gte', ours: (...args: unknown[]) => (core.gte as (...a: unknown[]) => unknown)(...args), lodashFn: _.gte, cases: [{ name: 'gte', args: [1, 1] }] },
+  { function: 'lt', ours: (...args: unknown[]) => (core.lt as (...a: unknown[]) => unknown)(...args), lodashFn: _.lt, cases: [{ name: 'lt', args: [1, 3] }] },
+  { function: 'lte', ours: (...args: unknown[]) => (core.lte as (...a: unknown[]) => unknown)(...args), lodashFn: _.lte, cases: [{ name: 'lte', args: [1, 1] }] },
+  { function: 'isBoolean', ours: (...args: unknown[]) => (core.isBoolean as (...a: unknown[]) => unknown)(...args), lodashFn: _.isBoolean, cases: [{ name: 'true', args: [true] }, { name: '숫자', args: [1] }] },
+  { function: 'isDate', ours: (...args: unknown[]) => (core.isDate as (...a: unknown[]) => unknown)(...args), lodashFn: _.isDate, cases: [{ name: 'Date', args: [new Date()] }, { name: '숫자', args: [1] }] },
+  { function: 'toInteger', ours: (...args: unknown[]) => (core.toInteger as (...a: unknown[]) => unknown)(...args), lodashFn: _.toInteger, cases: [{ name: '기본', args: ['3.2'] }] },
+  { function: 'add', ours: (...args: unknown[]) => (core.add as (...a: unknown[]) => unknown)(...args), lodashFn: _.add, cases: [{ name: '기본', args: [6, 4] }] },
+  { function: 'ceil', ours: (...args: unknown[]) => (core.ceil as (...a: unknown[]) => unknown)(...args), lodashFn: _.ceil, cases: [{ name: 'ceil', args: [4.006, 2] }] },
+  { function: 'floor', ours: (...args: unknown[]) => (core.floor as (...a: unknown[]) => unknown)(...args), lodashFn: _.floor, cases: [{ name: 'floor', args: [4.006, 2] }] },
+  { function: 'round', ours: (...args: unknown[]) => (core.round as (...a: unknown[]) => unknown)(...args), lodashFn: _.round, cases: [{ name: 'round', args: [4.006, 2] }] },
+  { function: 'divide', ours: (...args: unknown[]) => (core.divide as (...a: unknown[]) => unknown)(...args), lodashFn: _.divide, cases: [{ name: 'divide', args: [6, 4] }] },
+  { function: 'multiply', ours: (...args: unknown[]) => (core.multiply as (...a: unknown[]) => unknown)(...args), lodashFn: _.multiply, cases: [{ name: 'multiply', args: [6, 4] }] },
+  { function: 'subtract', ours: (...args: unknown[]) => (core.subtract as (...a: unknown[]) => unknown)(...args), lodashFn: _.subtract, cases: [{ name: 'subtract', args: [6, 4] }] },
+  { function: 'maxBy', ours: (...args: unknown[]) => (core.maxBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.maxBy, cases: [{ name: 'maxBy', args: [[{ n: 1 }, { n: 2 }, { n: 3 }], (x: { n: number }) => x.n] }] },
+  { function: 'meanBy', ours: (...args: unknown[]) => (core.meanBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.meanBy, cases: [{ name: 'meanBy', args: [[{ n: 1 }, { n: 2 }, { n: 3 }], (x: { n: number }) => x.n] }] },
+  { function: 'minBy', ours: (...args: unknown[]) => (core.minBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.minBy, cases: [{ name: 'minBy', args: [[{ n: 1 }, { n: 2 }, { n: 3 }], (x: { n: number }) => x.n] }] },
+  { function: 'sumBy', ours: (...args: unknown[]) => (core.sumBy as (...a: unknown[]) => unknown)(...args), lodashFn: _.sumBy, cases: [{ name: 'sumBy', args: [[{ n: 1 }, { n: 2 }, { n: 3 }], (x: { n: number }) => x.n] }] },
+  { function: 'assign', ours: (a: Record<string, number>, b: Record<string, number>) => (core.assign as (...a: unknown[]) => unknown)({}, a, b), lodashFn: (a: Record<string, number>, b: Record<string, number>) => (_.assign as (...a: unknown[]) => unknown)({}, a, b), cases: [{ name: '기본', args: [{ a: 1 }, { b: 2 }] }] },
+  { function: 'defaults', ours: (a: Record<string, number>, b: Record<string, number>) => (core.defaults as (...a: unknown[]) => unknown)({}, a, b), lodashFn: (a: Record<string, number>, b: Record<string, number>) => (_.defaults as (...a: unknown[]) => unknown)({}, a, b), cases: [{ name: '기본', args: [{ a: 1 }, { a: 2, b: 2 }] }] },
+  { function: 'has', ours: (...args: unknown[]) => (core.has as (...a: unknown[]) => unknown)(...args), lodashFn: _.has, cases: [{ name: '기본', args: [{ a: 1 }, 'a'] }] },
+  { function: 'invert', ours: (...args: unknown[]) => (core.invert as (...a: unknown[]) => unknown)(...args), lodashFn: _.invert, cases: [{ name: '기본', args: [{ a: '1', b: '2' }] }] },
+  { function: 'merge', ours: (a: Record<string, unknown>, b: Record<string, unknown>) => (core.merge as (...a: unknown[]) => unknown)({}, a, b), lodashFn: (a: Record<string, unknown>, b: Record<string, unknown>) => (_.merge as (...a: unknown[]) => unknown)({}, a, b), cases: [{ name: '기본', args: [{ a: 1 }, { b: 2 }] }] },
+  { function: 'set', ours: (o: Record<string, unknown>, path: string, v: unknown) => (core.set as (...a: unknown[]) => unknown)({ ...o }, path, v), lodashFn: (o: Record<string, unknown>, path: string, v: unknown) => (_.set as (...a: unknown[]) => unknown)({ ...o }, path, v), cases: [{ name: '기본', args: [{}, 'a.b', 1] }] },
+  { function: 'toPairs', ours: (...args: unknown[]) => (core.toPairs as (...a: unknown[]) => unknown)(...args), lodashFn: _.toPairs, cases: [{ name: '기본', args: [{ a: 1, b: 2 }] }] },
+  { function: 'capitalize', ours: (...args: unknown[]) => (core.capitalize as (...a: unknown[]) => unknown)(...args), lodashFn: _.capitalize, cases: [{ name: '기본', args: ['FRED'] }] },
+  { function: 'kebabCase', ours: (...args: unknown[]) => (core.kebabCase as (...a: unknown[]) => unknown)(...args), lodashFn: _.kebabCase, cases: [{ name: '기본', args: ['Foo Bar'] }] },
+  { function: 'pad', ours: (...args: unknown[]) => (core.pad as (...a: unknown[]) => unknown)(...args), lodashFn: _.pad, cases: [{ name: '기본', args: ['abc', 8] }] },
+  { function: 'repeat', ours: (...args: unknown[]) => (core.repeat as (...a: unknown[]) => unknown)(...args), lodashFn: _.repeat, cases: [{ name: '기본', args: ['*', 3] }] },
+  { function: 'snakeCase', ours: (...args: unknown[]) => (core.snakeCase as (...a: unknown[]) => unknown)(...args), lodashFn: _.snakeCase, cases: [{ name: '기본', args: ['Foo Bar'] }] },
+  { function: 'toLower', ours: (...args: unknown[]) => (core.toLower as (...a: unknown[]) => unknown)(...args), lodashFn: _.toLower, cases: [{ name: 'toLower', args: ['--Foo-Bar--'] }] },
+  { function: 'toUpper', ours: (...args: unknown[]) => (core.toUpper as (...a: unknown[]) => unknown)(...args), lodashFn: _.toUpper, cases: [{ name: 'toUpper', args: ['--foo-bar--'] }] },
+  { function: 'trimEnd', ours: (...args: unknown[]) => (core.trimEnd as (...a: unknown[]) => unknown)(...args), lodashFn: _.trimEnd, cases: [{ name: '기본', args: ['  abc  '] }] },
+  { function: 'words', ours: (...args: unknown[]) => (core.words as (...a: unknown[]) => unknown)(...args), lodashFn: _.words, cases: [{ name: '기본', args: ['fred, barney, & pebbles'] }] },
+  { function: 'once', ours: (...args: unknown[]) => (core.once as (...a: unknown[]) => unknown)(...args), lodashFn: _.once, cases: [{ name: '기본', args: [() => 1] }] },
+  { function: 'chain', ours: (...args: unknown[]) => (core.chain as (...a: unknown[]) => unknown)(...args), lodashFn: _.chain, cases: [{ name: '기본', args: [[1, 2, 3]] }] },
+  { function: 'defaultTo', ours: (...args: unknown[]) => (core.defaultTo as (...a: unknown[]) => unknown)(...args), lodashFn: _.defaultTo, cases: [{ name: '값 있음', args: [1, 10] }, { name: 'null', args: [null, 10] }] },
+  { function: 'noop', ours: () => (core.noop as (...a: unknown[]) => unknown)(), lodashFn: () => _.noop(), cases: [{ name: '기본', args: [] }] },
+  { function: 'times', ours: (...args: unknown[]) => (core.times as (...a: unknown[]) => unknown)(...args), lodashFn: _.times, cases: [{ name: '기본', args: [3, (i: number) => i * 2] }] },
+];
+
+const allResultCases = [...resultCases, ...unimplementedCases];
 
 function stringify(v: unknown): string {
   if (v === undefined) return 'undefined';

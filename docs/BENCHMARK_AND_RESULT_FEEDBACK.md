@@ -4,6 +4,15 @@
 
 ---
 
+## AI가 참고할 때 (요약)
+
+1. **`docs/feedback-report.md`** 를 연다.
+2. **「2. 다음 직접 작업 (AI가 할 일)」** 섹션을 읽고, 그 단계대로 **한 함수씩** `packages/core/src/*.ts` 에서 구현·수정한다.
+3. 실패 목록의 **함수명** → 해당 소스 파일 → `expected` 값에 맞게 구현 후, `bun run --filter=@lodash-v2/test test` 로 검증한다.
+4. 더 자세한 형식·의미는 아래 개요·실패 형식·체크리스트를 참고한다.
+
+---
+
 ## 1. 개요
 
 - **결과 동등성**: 같은 입력에 대해 **ours의 반환값이 lodash와 동일**해야 함. 실패 시 `expected`(lodash) vs `actual`(ours)를 비교해 수정.
@@ -79,9 +88,14 @@ bun run --filter=@lodash-v2/test generate-feedback
 ## 4. AI 셀프 피드백 체크리스트
 
 1. **`docs/feedback-report.md` (또는 동일 형식 문서) 존재 여부**
-   - 있으면: "결과 동등성 실패 목록" 테이블에서 `expected` vs `actual` 비교 후 해당 `packages/core/src/*.ts` 함수 수정.
-   - 없으면: `bun run --filter=@lodash-v2/test test` 실행 출력에서 실패한 테스트의 `expected`/`actual`을 위 표 형식으로 정리해 사용.
+   - 있으면: **「2. 다음 직접 작업 (AI가 할 일)」** 섹션을 따라, 실패 목록에서 **한 함수**를 골라 `packages/core/src/*.ts` 에서 해당 함수를 구현·수정한다. (실패 목록 맨 위부터 순서대로 처리.)
+   - 없으면: `bun run --filter=@lodash-v2/test test` 실행 출력에서 실패한 테스트의 `expected`/`actual`을 파악한 뒤, 동일하게 해당 core 함수를 수정한다.
 
-2. **수정 후 재검증**
+2. **직접 작업 내용 (명확히 할 일)**
+   - 실패한 **함수명** → `packages/core/src/{array|collection|lang|math|number|object|string|function|util|seq|date}.ts` 중 해당 파일에서 해당 함수 찾기.
+   - `expected (lodash)` 값이 나오도록 구현 또는 수정. (플레이스홀더면 전부 구현, 이미 구현돼 있으면 로직만 보정.)
+   - 저장 후 `bun run --filter=@lodash-v2/test test` 실행해 통과 여부 확인.
+
+3. **수정 후 재검증**
    - `bun run --filter=@lodash-v2/test test`
-   - 필요 시 `docs/feedback-report.md` 재생성 후 다시 위 체크리스트 적용.
+   - 필요 시 `bun run generate-feedback` 로 `docs/feedback-report.md` 재생성 후, 실패가 0이 될 때까지 위 1~2 반복.
