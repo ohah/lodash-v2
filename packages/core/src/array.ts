@@ -113,24 +113,6 @@ export const differenceWith = (array: unknown[], values: unknown[], comparator?:
     return !values.some(value => comparator(item, value));
   });
 };
-  for (const value of values) {
-    if (Array.isArray(value)) {
-      valuesArray.push(...value);
-    } else {
-      valuesArray.push(value);
-    }
-  }
-
-  // 변환된 values 배열 (기본 값 함수)
-  const iterateeFn = typeof values[values.length - 1] === 'function' ? values[values.length - 1] as (value: unknown) => unknown : ((x: unknown) => x);
-  const valuesTransformed = valuesArray.map(iterateeFn);
-
-  // 필터링
-  return array.filter(item => {
-    const itemTransformed = iterateeFn(item);
-    return !valuesTransformed.includes(itemTransformed);
-  });
-};
 export const drop = (array: unknown[], n: number = 1): unknown[] => {
   if (!Array.isArray(array)) {
     return [];
